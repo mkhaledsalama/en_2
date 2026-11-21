@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M&lt;&gt;S Study Hub — Complete Interactive Learning Platform</title>
+  <script>
+(function(){try{var r=localStorage.getItem('ms_study_hub_v1');if(r){var s=JSON.parse(r);if(s.theme)document.documentElement.setAttribute('data-theme',s.theme);if(s.lang){document.documentElement.setAttribute('lang',s.lang);document.documentElement.setAttribute('dir',s.lang==='ar'?'rtl':'ltr');}}}catch(e){}})();
+</script>
+  <style>
+/* ==========================================================================
+   M<>S Study Hub — Editorial Design System (css/style.css)
+   Light: Warm Cream + Espresso + Muted Olive + Terracotta
+   Dark: Deep Charcoal + Dark Coffee + Warm Off-White + Olive + Soft Amber
+   Zero Blue, Zero Purple, Zero Neon.
+   ========================================================================== */
+
+:root {
+  --bg: #F7F3EB;
+  --surface: #FDFBF7;
+  --surface-alt: #EFE9DD;
+  --text: #261E18;
+  --text-muted: #6A5E54;
+  --olive: #556846;
+  --olive-hover: #445437;
+  --olive-soft: rgba(85, 104, 70, 0.11);
+  --accent: #B45E43; /* Terracotta */
+  --accent-soft: rgba(180, 94, 67, 0.12);
+  --border: #DED6C8;
+
+  --ok: #3F603B;
+  --ok-bg: #E6F0E4;
+  --err: #9B362A;
+  --err-bg: #F7E7E4;
+  --warn: #946824;
+  --warn-bg: #F6EFE0;
+
+  --font-en: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-ar: 'Cairo', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius: 6px;
+  --shadow: 0 1px 3px rgba(38, 30, 24, 0.06);
+  --nav-h: 64px;
+}
+
+[data-theme="dark"] {
+  --bg: #171614;
+  --surface: #231F1C;
+  --surface-alt: #2E2824;
+  --text: #F5F0E6;
+  --text-muted: #B8AEA0;
+  --olive: #8EA37B;
+  --olive-hover: #7A8F68;
+  --olive-soft: rgba(142, 163, 123, 0.14);
+  --accent: #D6A15C; /* Soft Amber */
+  --accent-soft: rgba(214, 161, 92, 0.14);
+  --border: #3A332D;
+
+  --ok: #8FB88A;
+  --ok-bg: rgba(63, 96, 59, 0.34);
+  --err: #E69085;
+  --err-bg: rgba(155, 54, 42, 0.30);
+  --warn: #E2B770;
+  --warn-bg: rgba(148, 104, 36, 0.28);
+
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; overflow-x: hidden; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-en);
+  line-height: 1.62;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+[dir="rtl"] body { font-family: var(--font-ar); }
+button, input, select { font-family: inherit; font-size: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+svg { max-width: 100%; height: auto; display: block; }
+
+/* Typographic M<>S Logo */
+.brand { display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; }
+.brand-mark {
+  display: inline-flex; align-items: center; gap: 1px;
+  padding: 5px 10px; background-color: #556846; color: #FDFBF7;
+  border-radius: 4px; font-family: var(--font-mono); font-size: 0.96rem;
+  font-weight: 800; letter-spacing: 0.05em;
+}
+.brand-mark em { font-style: normal; color: #E2C6A6; }
+.brand-name { font-size: 0.84rem; font-weight: 700; color: var(--text-muted); display: none; }
+
+/* Header & Navigation */
+.topbar {
+  position: sticky; top: 0; z-index: 100; height: var(--nav-h);
+  background-color: var(--surface); border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: 1180px; margin: 0 auto; height: 100%; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.nav-links { display: none; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 7px 12px; border-radius: 4px; font-size: 0.88rem; font-weight: 600;
+  color: var(--text-muted); white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.nav-link:hover { background-color: var(--surface-alt); color: var(--text); }
+.nav-link.active { background-color: #556846; color: #FDFBF7; }
+
+.topbar-ctrls { display: flex; align-items: center; gap: 6px; }
+.ctrl-btn {
+  min-height: 36px; padding: 6px 10px; border-radius: 4px;
+  background-color: var(--surface-alt); border: 1px solid var(--border);
+  font-size: 0.82rem; font-weight: 700;
+}
+.ctrl-btn:hover { border-color: var(--accent); }
+
+.mobile-drawer {
+  display: none; background-color: var(--surface);
+  border-bottom: 1px solid var(--border); padding: 12px 16px 16px;
+}
+.mobile-drawer.open { display: block; }
+.mobile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.mobile-drawer .nav-link { display: block; border: 1px solid var(--border); padding: 10px 12px; }
+
+/* Page Container & Headers */
+.container { max-width: 1180px; margin: 0 auto; padding: 22px 16px 72px; width: 100%; }
+.page-head { margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.eyebrow { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+.page-title { margin: 4px 0 6px; font-family: var(--font-serif); font-size: 1.75rem; line-height: 1.24; }
+[dir="rtl"] .page-title { font-family: var(--font-ar); }
+.page-sub { margin: 0; font-size: 0.94rem; color: var(--text-muted); }
+
+/* Distinct Editorial Surface Treatments */
+.card { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.card-alt { background-color: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.callout-terracotta {
+  background-color: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: 4px; padding: 14px 16px;
+}
+
+/* Buttons & Badges */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 40px; padding: 8px 16px; border-radius: 4px;
+  font-size: 0.88rem; font-weight: 600; border: 1px solid transparent;
+  white-space: nowrap; transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn-primary { background-color: #556846; color: #FDFBF7; border-color: #556846; }
+.btn-primary:hover { background-color: #445437; }
+.btn-accent { background-color: var(--accent); color: #FDFBF7; border-color: var(--accent); }
+.btn-secondary { background-color: var(--surface); color: var(--text); border-color: var(--border); }
+.btn-secondary:hover { background-color: var(--surface-alt); border-color: var(--olive); }
+.btn-danger { background-color: var(--err); color: #FDFBF7; }
+.btn-sm { min-height: 32px; padding: 5px 11px; font-size: 0.82rem; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: 700; }
+.badge-olive { background-color: var(--ok-bg); color: var(--ok); }
+.badge-accent { background-color: var(--accent-soft); color: var(--accent); }
+.badge-err { background-color: var(--err-bg); color: var(--err); }
+.badge-muted { background-color: var(--surface-alt); color: var(--text-muted); border: 1px solid var(--border); }
+
+.input, .select {
+  width: 100%; min-height: 40px; padding: 8px 12px;
+  background-color: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; color: var(--text);
+}
+.input:focus, .select:focus { outline: 2px solid var(--olive); outline-offset: 1px; }
+
+/* Dashboard Hero + Ring Progress */
+.dash-hero {
+  background-color: var(--surface); border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--olive); border-radius: var(--radius);
+  padding: 22px; margin-bottom: 18px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.ring-wrap { display: flex; align-items: center; gap: 16px; }
+.ring-svg { width: 82px; height: 82px; flex-shrink: 0; }
+.ring-bg { fill: none; stroke: var(--surface-alt); stroke-width: 8; }
+.ring-fg { fill: none; stroke: var(--olive); stroke-width: 8; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 0.5s ease; }
+
+.stats-strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+.stat-tile { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.stat-k { font-size: 0.73rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-v { font-size: 1.5rem; font-weight: 800; margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+
+.progress-track { width: 100%; height: 8px; background-color: var(--surface-alt); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background-color: var(--olive); transition: width 0.35s ease; }
+
+/* Tabs & Interactive Controls */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.tab {
+  padding: 7px 12px; border-radius: 4px; background-color: var(--surface);
+  border: 1px solid var(--border); font-size: 0.84rem; font-weight: 600; color: var(--text-muted);
+}
+.tab.active { background-color: #556846; color: #FDFBF7; border-color: #556846; }
+
+/* Quiz Options & Feedback */
+.opt-list { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%;
+  padding: 13px 14px; text-align: start; background-color: var(--surface-alt);
+  border: 1px solid var(--border); border-radius: 4px; font-size: 0.93rem;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--olive); }
+.opt-btn.ok { border-color: var(--ok); background-color: var(--ok-bg); font-weight: 700; }
+.opt-btn.err { border-color: var(--err); background-color: var(--err-bg); }
+.opt-key {
+  min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 4px; background-color: var(--surface); border: 1px solid var(--border);
+  font-weight: 700; font-size: 0.8rem; flex-shrink: 0;
+}
+
+.fb-box { margin-top: 14px; padding: 13px 15px; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem; }
+.fb-box.ok { background-color: var(--ok-bg); border-color: var(--ok); }
+.fb-box.err { background-color: var(--err-bg); border-color: var(--err); }
+
+/* Immediate-Feedback Matching Grid */
+.match-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
+.match-btn {
+  width: 100%; padding: 11px 12px; text-align: start; background-color: var(--surface-alt);
+  border: 1px solid var(--border); border-radius: 4px; margin-bottom: 8px; font-size: 0.9rem;
+}
+.match-btn.picking { border: 2px solid var(--accent); background-color: var(--accent-soft); }
+.match-btn.ok { background-color: var(--ok-bg); border-color: var(--ok); }
+.match-btn.err { background-color: var(--err-bg); border-color: var(--err); }
+
+/* Flashcard + Spaced Repetition Ratings */
+.fc-card {
+  max-width: 680px; margin: 0 auto 16px; min-height: 230px;
+  background-color: var(--surface); border: 1px solid var(--border);
+  border-top: 4px solid var(--accent); border-radius: var(--radius);
+  padding: 26px 22px; display: flex; flex-direction: column;
+  justify-content: center; gap: 10px; cursor: pointer;
+}
+.srs-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 680px; margin: 0 auto; }
+
+/* Modal, Toast, Empty */
+.modal-bg { position: fixed; inset: 0; background: rgba(23, 22, 20, 0.58); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 200; }
+.modal-bg.open { display: flex; }
+.modal-box { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); max-width: 440px; width: 100%; padding: 22px; }
+.toast {
+  position: fixed; bottom: 20px; inset-inline-end: 20px; z-index: 300;
+  background-color: #261E18; color: #FDFBF7; padding: 10px 16px; border-radius: 4px;
+  border-inline-start: 4px solid var(--accent); font-size: 0.86rem; font-weight: 600;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+}
+.toast.show { opacity: 1; }
+.empty-box { text-align: center; padding: 26px 16px; background-color: var(--surface-alt); border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-muted); }
+
+.spa-view { display: none; }
+.spa-view.active { display: block; }
+
+/* ==========================================================================
+   M<>S Study Hub — Responsive Breakpoints (css/responsive.css)
+   ========================================================================== */
+
+@media (min-width: 640px) {
+  .brand-name { display: inline; }
+  .match-grid { grid-template-columns: 1fr 1fr; }
+  .srs-row { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 768px) {
+  .container { padding: 28px 24px 76px; }
+  .page-title { font-size: 2rem; }
+  .dash-hero { flex-direction: row; align-items: center; justify-content: space-between; padding: 26px; }
+  .stats-strip { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .nav-links { display: flex; }
+  .mobile-menu-btn, .mobile-drawer { display: none !important; }
+  .stats-strip { grid-template-columns: repeat(6, 1fr); }
+}
+
+@media (max-width: 390px) {
+  .topbar-inner { padding: 0 10px; gap: 6px; }
+  .ctrl-btn { padding: 5px 8px; font-size: 0.76rem; }
+  .mobile-grid { grid-template-columns: 1fr; }
+  .card { padding: 15px; }
+}
+
+/* ==========================================================================
+   M<>S Study Hub — Subtle Purposeful Animations (css/animations.css)
+   Respects prefers-reduced-motion.
+   ========================================================================== */
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spa-view.active, .card {
+  animation: fadeSlide 0.22s ease;
+}
+
+.fc-card {
+  transition: transform 0.18s ease, border-color 0.2s ease;
+}
+
+.fc-card:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+  </style>
+</head>
+<body data-page="home" data-mode="spa">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#" data-nav="home" aria-label="M<>S Study Hub">
+        <span class="brand-mark">M<em>&lt;&gt;</em>S</span>
+        <span class="brand-name" data-i18n="brandFull">Study Hub</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a class="nav-link active" href="#" data-nav="home" data-i18n="navHome">Dashboard</a>
+        <a class="nav-link" href="#" data-nav="study" data-i18n="navStudy">Study Topics</a>
+        <a class="nav-link" href="#" data-nav="quiz" data-i18n="navQuiz">Instant Quiz</a>
+        <a class="nav-link" href="#" data-nav="practice" data-i18n="navPractice">Smart Study</a>
+        <a class="nav-link" href="#" data-nav="mistakes" data-i18n="navMistakes">My Mistakes</a>
+        <a class="nav-link" href="#" data-nav="progress" data-i18n="navProgress">Progress</a>
+      </nav>
+      <div class="topbar-ctrls">
+        <button class="ctrl-btn" id="btn-lang">العربية</button>
+        <button class="ctrl-btn" id="btn-theme">Dark</button>
+        <button class="ctrl-btn mobile-menu-btn" id="btn-mobile" aria-label="Menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+  <nav class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-grid"><a class="nav-link active" href="#" data-nav="home" data-i18n="navHome">Dashboard</a>
+        <a class="nav-link" href="#" data-nav="study" data-i18n="navStudy">Study Topics</a>
+        <a class="nav-link" href="#" data-nav="quiz" data-i18n="navQuiz">Instant Quiz</a>
+        <a class="nav-link" href="#" data-nav="practice" data-i18n="navPractice">Smart Study</a>
+        <a class="nav-link" href="#" data-nav="mistakes" data-i18n="navMistakes">My Mistakes</a>
+        <a class="nav-link" href="#" data-nav="progress" data-i18n="navProgress">Progress</a></div>
+  </nav>
+  <main class="container">
+    <section id="page-home" class="spa-view active"></section>
+    <section id="page-study" class="spa-view"></section>
+    <section id="page-quiz" class="spa-view"></section>
+    <section id="page-practice" class="spa-view"></section>
+    <section id="page-mistakes" class="spa-view"></section>
+    <section id="page-progress" class="spa-view"></section>
+  </main>
+  <div class="modal-bg" id="reset-modal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <h3 style="margin:0 0 8px;" data-i18n="confirmResetTitle">Confirm Reset</h3>
+      <p style="margin:0 0 18px;font-size:0.9rem;color:var(--text-muted);" data-i18n="confirmResetMsg">Clear all saved progress?</p>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button class="btn btn-secondary btn-sm" id="rst-cancel" data-i18n="cancel">Cancel</button>
+        <button class="btn btn-danger btn-sm" id="rst-confirm" data-i18n="confirm">Reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="mshub-toast" role="status" aria-live="polite"></div>
+  <script>
+/* ==========================================================================
+   M<>S Study Hub — LocalStorage + JSON Export/Import (js/storage.js)
+   ========================================================================== */
+
+window.MSHUB_STORAGE = (function () {
+  var KEY = 'ms_study_hub_v1';
+  var mem = null;
+
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function defaults() {
+    return {
+      lang: 'en',
+      theme: 'light',
+      lastTopic: 'topic1',
+      completedTopics: [],
+      bookmarks: [],
+      questionStats: {},   /* qId -> { attempts, correct, wrong } */
+      mistakes: {},        /* qId -> { wrongCount, lastWrong, mastered } */
+      srs: {},             /* qId -> { rating, intervalMin, nextReviewAt, reps } */
+      quizHistory: [],
+      streak: 0,
+      lastDate: ''
+    };
+  }
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (!raw) return defaults();
+      var parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return defaults();
+      return Object.assign(defaults(), parsed);
+    } catch (e) {
+      return mem ? Object.assign(defaults(), mem) : defaults();
+    }
+  }
+
+  function save(st) {
+    mem = st;
+    try { window.localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
+  }
+
+  function touchStreak(st) {
+    var t = today();
+    if (st.lastDate === t) return;
+    if (st.lastDate) {
+      var diff = Math.round((new Date(t + 'T00:00:00') - new Date(st.lastDate + 'T00:00:00')) / 86400000);
+      st.streak = diff === 1 ? (st.streak || 0) + 1 : 1;
+    } else st.streak = 1;
+    st.lastDate = t;
+  }
+
+  function update(fn) {
+    var st = load();
+    fn(st);
+    save(st);
+    return st;
+  }
+
+  function recordAnswer(qId, isCorrect, chosenText) {
+    return update(function (st) {
+      touchStreak(st);
+      var qs = st.questionStats[qId] || { attempts: 0, correct: 0, wrong: 0 };
+      qs.attempts += 1;
+      if (isCorrect) {
+        qs.correct += 1;
+      } else {
+        qs.wrong += 1;
+        var m = st.mistakes[qId] || { wrongCount: 0, lastWrong: '', mastered: false };
+        m.wrongCount += 1;
+        m.lastWrong = String(chosenText || '—');
+        m.mastered = false;
+        st.mistakes[qId] = m;
+      }
+      st.questionStats[qId] = qs;
+    });
+  }
+
+  function exportJson() {
+    return JSON.stringify(load(), null, 2);
+  }
+
+  function importJson(jsonStr) {
+    try {
+      var parsed = JSON.parse(jsonStr);
+      if (!parsed || typeof parsed !== 'object' || !('questionStats' in parsed)) {
+        return { ok: false, error: 'Invalid M<>S Study Hub backup file.' };
+      }
+      var merged = Object.assign(defaults(), parsed);
+      save(merged);
+      return { ok: true, state: merged };
+    } catch (e) {
+      return { ok: false, error: 'Corrupted or invalid JSON.' };
+    }
+  }
+
+  function resetAll() {
+    var d = defaults();
+    save(d);
+    return d;
+  }
+
+  return {
+    KEY: KEY, load: load, save: save, update: update, touchStreak: touchStreak,
+    recordAnswer: recordAnswer, exportJson: exportJson, importJson: importJson, resetAll: resetAll
+  };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Bilingual Translations (js/translations.js)
+   ========================================================================== */
+
+window.MSHUB_I18N = (function () {
+  var T = {
+    en: {
+      brandFull: 'Study Hub',
+      navHome: 'Dashboard',
+      navStudy: 'Study Topics',
+      navQuiz: 'Instant Quiz',
+      navPractice: 'Smart Study',
+      navMistakes: 'My Mistakes',
+      navProgress: 'Progress',
+      langBtn: 'العربية',
+      darkBtn: 'Dark',
+      lightBtn: 'Light',
+      welcome: 'Welcome to M<>S Study Hub',
+      welcomeSub: 'Study your Data Science course materials, master concepts with spaced repetition, and test yourself with instant feedback.',
+      continueBtn: 'Continue Learning',
+      startQuizBtn: 'Start Instant Quiz',
+      reviewMistakesBtn: 'Review Mistakes',
+      statTopics: 'Study Topics',
+      statTotalQ: 'Total Questions',
+      statAnswered: 'Answered',
+      statCorrect: 'Correct',
+      statAccuracy: 'Accuracy',
+      statStreak: 'Daily Streak',
+      days: 'days',
+      overallProg: 'Overall Learning Progress',
+      topicOverview: 'Course Topics Overview',
+      openTopic: 'Study Topic',
+      studyTitle: 'Study Topics',
+      studySub: 'Grounded in your uploaded Data Science PDFs and lecture notes with bilingual explanations and knowledge checks.',
+      enExplain: 'English Explanation',
+      arExplain: 'Arabic Explanation',
+      impVocab: 'Important Vocabulary',
+      keyConcepts: 'Key Concepts',
+      examples: 'Examples',
+      impNotes: 'Important Notes',
+      commonMistakes: 'Common Mistakes',
+      quickCheck: 'Short Knowledge Check',
+      markComplete: 'Mark Topic Completed',
+      completed: 'Completed',
+      quizTitle: 'Instant-Feedback Quiz',
+      quizSub: 'No waiting for a submit button — select an answer to see immediate feedback, highlighting, and explanation.',
+      filterTopic: 'Topic',
+      allTopics: 'All 3 Topics',
+      filterType: 'Question Type',
+      typeAll: 'All Types (75)',
+      typeMcq: 'Multiple Choice (30)',
+      typeTf: 'True or False (15)',
+      typeFill: 'Fill in the Blanks (15)',
+      typeMatch: 'Vocabulary Matching (15)',
+      countLabel: 'Questions',
+      shuffleOpt: 'Shuffled Order',
+      startQuiz: 'Start Quiz',
+      correctMsg: 'Correct!',
+      wrongMsg: 'Incorrect — see the correct answer below.',
+      nextQ: 'Next Question',
+      finishScreen: 'View Final Results',
+      quizResults: 'Quiz Results',
+      retryWrong: 'Retry Incorrect Answers',
+      restartQuiz: 'Restart Quiz',
+      checkFill: 'Check',
+      matchHint: 'Tap a term, then tap its matching definition for instant feedback.',
+      practiceTitle: 'Smart Study & Spaced Repetition',
+      practiceSub: 'Flashcards, Active Recall, and local Spaced Repetition prioritizing Again & Hard cards.',
+      tabSrs: 'Spaced Repetition Cards',
+      tabCollection: 'Practice Collection',
+      tabSaved: 'Bookmarked',
+      revealAns: 'Reveal Answer & Explanation',
+      rateAgain: 'Again (1m)',
+      rateHard: 'Hard (10m)',
+      rateGood: 'Good (1d)',
+      rateEasy: 'Easy (4d)',
+      bookmark: 'Bookmark',
+      bookmarked: 'Bookmarked',
+      dueNow: 'Due for review',
+      mistakesTitle: 'My Mistakes Notebook',
+      mistakesSub: 'Every incorrect answer is saved automatically with your previous choice, correct answer, and miss count.',
+      practiceMistakes: 'Practice Active Mistakes',
+      markMastered: 'Mark Mastered',
+      removeMistake: 'Remove',
+      missedCount: 'Missed',
+      yourChoice: 'Your Choice',
+      correctChoice: 'Correct Answer',
+      progressTitle: 'Progress & Data Management',
+      progressSub: 'Real study analytics, spaced repetition schedule summary, and JSON backup export/import.',
+      exportJson: 'Export Progress (JSON)',
+      importJson: 'Import Progress (JSON)',
+      resetProgress: 'Reset All Progress',
+      confirmResetTitle: 'Confirm Reset',
+      confirmResetMsg: 'Are you sure you want to clear all saved progress, spaced repetition schedules, and mistakes?',
+      cancel: 'Cancel',
+      confirm: 'Reset',
+      empty: 'No items here yet.',
+      searchPlaceholder: 'Search vocabulary or questions...',
+      fillPlaceholder: 'Type your answer...'
+    },
+    ar: {
+      brandFull: 'مركز المذاكرة',
+      navHome: 'الرئيسية',
+      navStudy: 'الدروس',
+      navQuiz: 'اختبار فوري',
+      navPractice: 'الحفظ والتكرار',
+      navMistakes: 'أخطائي',
+      navProgress: 'التقدم',
+      langBtn: 'English',
+      darkBtn: 'داكن',
+      lightBtn: 'فاتح',
+      welcome: 'مرحباً بك في M<>S Study Hub',
+      welcomeSub: 'ذاكر مقرر علم البيانات بشرح عربي وإنجليزي، احفظ بالتكرار المتباعد، واختبر نفسك بتصحيح فوري.',
+      continueBtn: 'متابعة التعلم',
+      startQuizBtn: 'ابدأ اختباراً فورياً',
+      reviewMistakesBtn: 'مراجعة أخطائي',
+      statTopics: 'موضوعات الدراسة',
+      statTotalQ: 'إجمالي الأسئلة',
+      statAnswered: 'تمت الإجابة',
+      statCorrect: 'صحيحة',
+      statAccuracy: 'الدقة',
+      statStreak: 'سلسلة الأيام',
+      days: 'يوم',
+      overallProg: 'التقدم الكلي في التعلم',
+      topicOverview: 'نظرة عامة على الموضوعات',
+      openTopic: 'ادرس الموضوع',
+      studyTitle: 'موضوعات الدراسة',
+      studySub: 'مستندة إلى ملفات المقرر والتمارين المحلولة مع شروحات بالعربية والإنجليزية واختبار فهم قصير.',
+      enExplain: 'الشرح بالإنجليزية',
+      arExplain: 'الشرح بالعربية',
+      impVocab: 'أهم المفردات',
+      keyConcepts: 'المفاهيم الأساسية',
+      examples: 'أمثلة عملية',
+      impNotes: 'ملاحظات مهمة',
+      commonMistakes: 'أخطاء شائعة',
+      quickCheck: 'اختبار فهم سريع',
+      markComplete: 'تحديد كمكتمل',
+      completed: 'مكتمل',
+      quizTitle: 'اختبار بالتصحيح الفوري',
+      quizSub: 'بدون زر تسليم نهائي — اختر إجابتك لترى التصحيح والشرح فوراً وتحديث الدرجة مباشرة.',
+      filterTopic: 'الموضوع',
+      allTopics: 'جميع الموضوعات الثلاثة',
+      filterType: 'نوع السؤال',
+      typeAll: 'جميع الأنواع (75)',
+      typeMcq: 'اختيار من متعدد (30)',
+      typeTf: 'صح أو خطأ (15)',
+      typeFill: 'إكمال الفراغات (15)',
+      typeMatch: 'مطابقة المفردات (15)',
+      countLabel: 'عدد الأسئلة',
+      shuffleOpt: 'ترتيب عشوائي',
+      startQuiz: 'بدء الاختبار',
+      correctMsg: 'إجابة صحيحة!',
+      wrongMsg: 'إجابة خاطئة — راجع الإجابة الصحيحة بالأسفل.',
+      nextQ: 'السؤال التالي',
+      finishScreen: 'عرض النتيجة النهائية',
+      quizResults: 'نتيجة الاختبار',
+      retryWrong: 'إعادة الأسئلة الخاطئة',
+      restartQuiz: 'إعادة الاختبار',
+      checkFill: 'تحقق',
+      matchHint: 'اضغط على المصطلح ثم اضغط على تعريفه الصحيح لتحصل على تصحيح فوري.',
+      practiceTitle: 'الحفظ الذكي والتكرار المتباعد',
+      practiceSub: 'بطاقات تفاعلية واسترجاع نشط مع جدولة ذكية تعطي الأولوية للأسئلة الصعبة.',
+      tabSrs: 'بطاقات التكرار المتباعد',
+      tabCollection: 'مجموعة التدريب',
+      tabSaved: 'المحفوظات',
+      revealAns: 'كشف الإجابة والشرح',
+      rateAgain: 'مجدداً (1 د)',
+      rateHard: 'صعب (10 د)',
+      rateGood: 'جيد (1 يوم)',
+      rateEasy: 'سهل (4 أيام)',
+      bookmark: 'حفظ',
+      bookmarked: 'محفوظ',
+      dueNow: 'مستحقة للمراجعة',
+      mistakesTitle: 'دفتر أخطائي',
+      mistakesSub: 'يُحفَظ كل سؤال أخطأت فيه تلقائياً مع إجابتك السابقة والإجابة الصحيحة وعدد مرات الخطأ.',
+      practiceMistakes: 'تدرب على الأخطاء النشطة',
+      markMastered: 'تم إتقانه',
+      removeMistake: 'إزالة',
+      missedCount: 'مرات الخطأ',
+      yourChoice: 'إجابتك',
+      correctChoice: 'الإجابة الصحيحة',
+      progressTitle: 'التقدم وإدارة البيانات',
+      progressSub: 'إحصاءات فعلية وملخص التكرار المتباعد وتصدير/استيراد التقدم بصيغة JSON.',
+      exportJson: 'تصدير التقدم (JSON)',
+      importJson: 'استيراد التقدم (JSON)',
+      resetProgress: 'إعادة تعيين التقدم',
+      confirmResetTitle: 'تأكيد إعادة التعيين',
+      confirmResetMsg: 'هل أنت متأكد من مسح كل التقدم وجداول التكرار المتباعد ودفتر الأخطاء؟',
+      cancel: 'إلغاء',
+      confirm: 'تأكيد المسح',
+      empty: 'لا توجد عناصر هنا بعد.',
+      searchPlaceholder: 'ابحث في المفردات أو الأسئلة...',
+      fillPlaceholder: 'اكتب إجابتك هنا...'
+    }
+  };
+
+  function getLang() { return window.MSHUB_STORAGE.load().lang || 'en'; }
+  function t(k) { var l = getLang(); return (T[l] && T[l][k]) || T.en[k] || k; }
+  function apply(l) { document.documentElement.setAttribute('lang', l); document.documentElement.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr'); }
+  function toggle() { var n = getLang() === 'en' ? 'ar' : 'en'; window.MSHUB_STORAGE.update(function (s) { s.lang = n; }); apply(n); return n; }
+
+  return { getLang: getLang, t: t, apply: apply, toggle: toggle };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Complete Data Science Content & 75-Question Bank (js/data.js)
+   Sources:
+   - EN_Fill in the Blanks & Vocabulary Matching.pdf (15 Matching + 15 Fill)
+   - EN_MCQ & True Or False.pdf (30 MCQ + 15 True/False)
+   - English_t1-t2-t3_G.pdf (Bilingual Lecture Notes & Vocab Tables)
+   ========================================================================== */
+
+window.MSHUB_DATA = (function () {
+  var topics = [
+    {
+      id: 'topic1', num: '01', diagram: 'workflow',
+      titleEn: 'A Brief of Data Science and Data Scientist',
+      titleAr: 'مقدمة في علم البيانات وعالم البيانات',
+      enExplain: [
+        'Data Science is a combination of algorithms, tools, principles, and programming languages used to identify hidden patterns in datasets and predict possible outcomes (Data -> Patterns -> Predictions).',
+        'Data Analyst vs. Data Scientist: A Data Analyst uses historical data to explain what happened or is happening in the present. A Data Scientist uses advanced algorithms and mathematical/statistical methods to discover patterns and predict possible future outcomes.',
+        'Predictive Analytics uses existing data to predict possible future outcomes ("What might happen?"). Prescriptive Analytics recommends actions based on available data and predictions by modifying parameters to support decision-making ("What should we do?").',
+        'Business Intelligence (BI) analyzes historical structured data to explain current patterns. Modern organizations generate huge volumes of semi-structured and unstructured data, which traditional BI tools struggle to process—so Data Scientists work with both structured and unstructured data.',
+        'Key Applications: Customer Service (analyzing purchase and browsing history to recommend products), Self-Driven Cars (lasers, radars, and cameras + ML algorithms), and Weather Forecasting (multi-source data from aircraft, satellites, radars, and ships to predict natural calamities).'
+      ],
+      arExplain: [
+        'علم البيانات (Data Science) هو مجال يجمع بين الخوارزميات والأدوات والمبادئ ولغات البرمجة لتحليل البيانات واكتشاف الأنماط المخفية والتنبؤ بالنتائج المستقبلية (بيانات ← اكتشاف أنماط ← توقعات).',
+        'الفرق بين محلل البيانات وعالم البيانات: محلل البيانات (Data Analyst) يحلل البيانات التاريخية لفهم ما حدث أو يحدث حالياً، بينما عالم البيانات (Data Scientist) يستخدم خوارزميات متقدمة وأساليب رياضية وإحصائية للتنبؤ بالمستقبل.',
+        'التحليلات التنبؤية (Predictive Analytics) تجيب عن "ماذا يمكن أن يحدث؟"، بينما التحليلات التوجيهية (Prescriptive Analytics) تجيب عن "ماذا يجب أن نفعل؟" وتقترح إجراءات وتعدّل المعاملات.',
+        'ذكاء الأعمال التقليدي (Business Intelligence) يعمل بكفاءة مع البيانات المنظمة (Structured Data) فقط ويواجه صعوبة مع البيانات غير المنظمة (Unstructured Data)، لذلك يعمل عالم البيانات مع النوعين معاً.',
+        'التطبيقات: خدمة العملاء (أنظمة التوصية بالمنتجات)، السيارات ذاتية القيادة (الليزر والرادارات والكاميرات وتعلم الآلة)، والتنبؤ بالطقس والكوارث الطبيعية من مصادر متعددة.'
+      ],
+      vocab: [
+        ['Data Science', 'علم البيانات', 'A discipline involving tools and algorithms to extract insights and predict outcomes.'],
+        ['Predictive Analytics', 'التحليلات التنبؤية', 'A method for predicting possible future outcomes and associated actions.'],
+        ['Prescriptive Analytics', 'التحليلات التوجيهية', 'Techniques to recommend actions based on data predictions and decisions.'],
+        ['Data Scientist', 'عالم البيانات', 'A professional who uses data to answer business questions and provide insights.'],
+        ['Business Intelligence', 'ذكاء الأعمال', 'Analyzing historical data to explain current patterns.'],
+        ['Structured Data', 'بيانات منظمة', 'Data organized in fixed tables (rows/columns); best for traditional BI tools.'],
+        ['Unstructured Data', 'بيانات غير منظمة', 'Data without a fixed table schema (text, images, video, sensor feeds).'],
+        ['Recommendation', 'توصية', 'Suggesting suitable products to customers based on purchase/browsing history.']
+      ],
+      keyConcepts: [
+        'Data -> Patterns -> Predictions',
+        'Data Scientist knowledge = Mathematics + Statistics + Computer Science',
+        'Predictive = What might happen? | Prescriptive = What should we do?',
+        'Self-driven car sensors = lasers, radars, and cameras'
+      ],
+      examples: [
+        'E-commerce store analyzing 10,000 customers\' purchase and browsing history to recommend products.',
+        'Predictive: forecasting that next month\'s sales may drop; Prescriptive: recommending targeted discounts to prevent the drop.'
+      ],
+      notes: [
+        'Original PDF course emphasis: Traditional BI tools work best with structured data, whereas data scientists extract useful information from both structured and unstructured data.'
+      ],
+      commonMistakes: [
+        'Saying a Data Scientist and a Data Analyst perform the same roles (False).',
+        'Thinking traditional BI handles unstructured data easily (False).',
+        'Confusing Predictive (forecasting) with Prescriptive (recommending actions).'
+      ],
+      checkIds: ['t1-mcq-1', 't1-tf-1', 't1-fill-2']
+    },
+    {
+      id: 'topic2', num: '02', diagram: 'lifecycle',
+      titleEn: 'Data Science Life Cycle',
+      titleAr: 'دورة حياة علم البيانات',
+      enExplain: [
+        'The Data Science Lifecycle is a structured approach consisting of six phases to complete a data science project systematically rather than randomly.',
+        'Phase 1 — Discovery: Understand business requirements, specifications, approved budget, and priorities; assess available resources, people, technology, data, and time; frame the problem and form an initial hypothesis.',
+        'Phase 2 — Data Preparation: Set up an Analytical Sandbox (a secure environment for testing and analyzing data), run ETL (Extract, Transform, Load), and process, explore, clean, and condition data (handling missing values, errors, and outliers) using R or Python.',
+        'Phase 3 — Plan the Model: Apply Exploratory Data Analysis (EDA) to identify relationships between variables and select suitable algorithms. Tools mentioned: R (modeling/analysis), SQL (in-database predictive modeling), ACCESS/SAS, and Hadoop.',
+        'Phase 4 — Build the Model: Divide the dataset into Training Data and Testing Data, and apply techniques such as Clustering, Classification, and Association.',
+        'Phase 5 — Operate the Model: Run the model in the production environment on Real-time Data (data processed as it is generated), identify constraints, and deliver reports.',
+        'Phase 6 — Communicate the Results: The final phase—evaluate key findings against Phase 1 criteria and communicate them to the organization.'
+      ],
+      arExplain: [
+        'دورة حياة علم البيانات (Lifecycle) هي منهجية منظمة من 6 مراحل لتنفيذ مشروع علم البيانات بخطوات واضحة من البداية حتى النهاية.',
+        'المرحلة 1 (Discovery): فهم متطلبات العمل والمواصفات والميزانية والأولويات، وتقييم الموارد والأفراد والتكنولوجيا والبيانات والوقت، وصياغة المشكلة والفرضية الأولية (Hypothesis).',
+        'المرحلة 2 (Data Preparation): تجهيز بيئة تحليل آمنة (Analytical Sandbox) ونقل البيانات إليها بعمليات ETL (استخراج، تحويل، تحميل)، وتنظيف البيانات واستكشافها وتهيئتها باستخدام R أو Python لاكتشاف القيم الشاذة (Outliers).',
+        'المرحلة 3 (Plan the Model): استخدام التحليل الاستكشافي (EDA) لفهم العلاقات بين المتغيرات واختيار الخوارزميات المناسبة بأدوات مثل R و SQL و ACCESS/SAS و Hadoop.',
+        'المرحلة 4 (Build the Model): تقسيم البيانات إلى بيانات تدريب (Training) وبيانات اختبار (Testing)، وتطبيق تقنيات التجميع (Clustering) والتصنيف (Classification) والارتباط (Association).',
+        'المرحلة 5 (Operate the Model): تشغيل النموذج في بيئة الإنتاج على البيانات اللحظية (Real-time Data) وتسليم التقارير.',
+        'المرحلة 6 (Communicate the Results): المرحلة الأخيرة لتقييم النتائج الرئيسية وعرضها على المؤسسة.'
+      ],
+      vocab: [
+        ['Lifecycle', 'دورة الحياة', 'A structured approach consisting of phases to complete a data science project.'],
+        ['Analytical Sandbox', 'بيئة تحليل آمنة', 'A secure environment for testing and analyzing data.'],
+        ['ETL', 'استخراج وتحويل وتحميل', 'The process of extracting, transforming, and loading data into a system.'],
+        ['Hypothesis', 'فرضية', 'A proposed explanation or prediction that can be tested.'],
+        ['Real-time Data', 'بيانات لحظية', 'Data that is processed and analyzed as it is generated.'],
+        ['EDA', 'التحليل الاستكشافي', 'Exploratory Data Analysis to discover patterns and variable relationships.'],
+        ['Outliers', 'قيم شاذة', 'Data values far from normal observations that require cleaning.'],
+        ['Training / Testing Data', 'بيانات التدريب / الاختبار', 'Subsets split during Phase 4 (Build the Model) to develop and test models.']
+      ],
+      keyConcepts: [
+        'Discovery = Problem & Hypothesis | Data Preparation = ETL & Cleaning | Plan the Model = Techniques & Algorithms',
+        'Build the Model = Train/Test Split + Clustering, Classification, Association',
+        'Operate the Model = Real-time data & reports | Communicate the Results = Final evaluation'
+      ],
+      examples: [
+        'A company asking why users leave its app: Discovery frames the churn hypothesis -> Prep cleans logs via ETL -> Plan picks a classification algorithm -> Build splits train/test -> Operate monitors live users -> Communicate presents key findings.'
+      ],
+      notes: [
+        'R and Python are commonly used for data preparation and visualization; SQL supports in-database analysis and predictive modeling.'
+      ],
+      commonMistakes: [
+        'Thinking Building the Model is Phase 1 (False — Discovery is Phase 1).',
+        'Thinking Training & Testing datasets are split in Phase 3 Planning (False — they are split in Phase 4 Build the Model).'
+      ],
+      checkIds: ['t2-mcq-4', 't2-tf-3', 't2-fill-2']
+    },
+    {
+      id: 'topic3', num: '03', diagram: 'supervised',
+      titleEn: 'Pros and Cons of Data Science',
+      titleAr: 'مزايا وتحديات علم البيانات',
+      enExplain: [
+        'Advantages (Pros): Abundant career opportunities because demand for skilled data scientists exceeds supply (course solved T/F cites an average of $160,000 annually per Glassdoor). Data Science is versatile across many industries—not limited to healthcare.',
+        'It improves decision-making by analyzing and improving data quality, reduces redundancy by training machines to perform repetitive tasks, powers e-commerce recommendation systems based on customer behavior, and helps healthcare detect diseases and tumors early.',
+        'Supervised vs. Unsupervised Learning: In Supervised Learning, labeled data is used for training. In Unsupervised Learning, the system identifies patterns without labeled data.',
+        'Challenges (Cons): Data Science can feel ambiguous because its meaning and responsibilities vary across contexts. Because the field evolves rapidly across multiple disciplines, continuous learning is mandatory.',
+        'Domain Knowledge is essential to interpret data accurately within a specific field. Finally, improper security measures create privacy risks where personal data may be exposed through data leaks (privacy breaches).'
+      ],
+      arExplain: [
+        'المميزات: فرص عمل وفيرة لأن الطلب على علماء البيانات المهرة يفوق العرض، ومرونة عالية عبر مختلف الصناعات (وليس الرعاية الصحية فقط).',
+        'يساعد الشركات على اتخاذ قرارات مستنيرة بتحليل البيانات وتحسين جودتها، ويقلل التكرار غير الضروري (Redundancy) بتدريب الآلات، ويحسن التجارة الإلكترونية بأنظمة التوصية، ويدعم الرعاية الصحية بالكشف المبكر عن الأمراض والأورام (Tumor Detection).',
+        'التعلم الموجّه (Supervised Learning) يعتمد على بيانات مصنّفة للتدريب، بينما التعلم غير الموجّه (Unsupervised Learning) يكتشف الأنماط بدون بيانات مصنّفة.',
+        'التحديات: الغموض (Ambiguous) لاختلاف المسؤوليات حسب السياق، ضرورة التعلم المستمر لتطور المجال، الحاجة الماسة للمعرفة بالمجال (Domain Knowledge)، وخطر اختراق الخصوصية (Privacy Breach) وتسريب البيانات عند ضعف الأمان.'
+      ],
+      vocab: [
+        ['Supervised Learning', 'التعلم الموجّه', 'A machine learning method where labeled data is used for training.'],
+        ['Unsupervised Learning', 'التعلم غير الموجّه', 'A machine learning method where the system identifies patterns without labeled data.'],
+        ['Redundancy', 'التكرار', 'The unnecessary repetition of tasks.'],
+        ['Domain Knowledge', 'المعرفة المتخصصة بالمجال', 'Knowledge specific to a particular field or industry.'],
+        ['Ambiguous', 'غامض', 'Open to multiple interpretations or unclear.'],
+        ['Privacy Breach', 'اختراق الخصوصية', 'The violation of data protection leading to unauthorized access.'],
+        ['Tumor Detection', 'اكتشاف الأورام', 'Healthcare ML application for early detection of tumors.']
+      ],
+      keyConcepts: [
+        'Supervised = Labeled data | Unsupervised = Without labeled data',
+        'Industries: E-commerce (Recommendations), Healthcare (Tumor Detection), Business (Decision Making)',
+        'Domain knowledge IS essential; weak security causes privacy breaches'
+      ],
+      examples: [
+        'E-commerce sites recommending products based on browsing and purchase behavior.',
+        'Hospitals using machine learning algorithms to assist doctors with early tumor detection.'
+      ],
+      notes: [
+        'The $160,000 Glassdoor average salary appears in the uploaded solved True/False PDF as a course-specific statement.'
+      ],
+      commonMistakes: [
+        'Claiming Data Science is applied ONLY in healthcare (False — it is versatile across industries).',
+        'Claiming Domain Knowledge is not essential (False — it is essential to interpret data in a specific field).'
+      ],
+      checkIds: ['t3-mcq-1', 't3-tf-3', 't3-fill-4']
+    }
+  ];
+
+  /* Exact 15 Vocabulary Matching Pairs from PDF 1 */
+  var matchingSets = [
+    {
+      topicId: 'topic1',
+      pairs: [
+        { id: 'vm-t1-1', term: 'Data Science', ar: 'علم البيانات', def: 'A discipline involving tools and algorithms to extract insights and predict outcomes.' },
+        { id: 'vm-t1-2', term: 'Predictive Analytics', ar: 'التحليلات التنبؤية', def: 'A method for predicting possible future outcomes and associated actions.' },
+        { id: 'vm-t1-3', term: 'Prescriptive Analytics', ar: 'التحليلات التوجيهية', def: 'Techniques to recommend actions based on data predictions and decisions.' },
+        { id: 'vm-t1-4', term: 'Data Scientist', ar: 'عالم البيانات', def: 'A professional who uses data to answer business questions and provide insights.' },
+        { id: 'vm-t1-5', term: 'Business Intelligence', ar: 'ذكاء الأعمال', def: 'Analyzing historical data to explain current patterns.' }
+      ]
+    },
+    {
+      topicId: 'topic2',
+      pairs: [
+        { id: 'vm-t2-1', term: 'Lifecycle', ar: 'دورة الحياة', def: 'A structured approach consisting of phases to complete a data science project.' },
+        { id: 'vm-t2-2', term: 'Analytical Sandbox', ar: 'بيئة تحليل آمنة', def: 'A secure environment for testing and analyzing data.' },
+        { id: 'vm-t2-3', term: 'ETL', ar: 'استخراج وتحويل وتحميل', def: 'The process of extracting, transforming, and loading data into a system.' },
+        { id: 'vm-t2-4', term: 'Hypothesis', ar: 'فرضية', def: 'A proposed explanation or prediction that can be tested.' },
+        { id: 'vm-t2-5', term: 'Real-time Data', ar: 'بيانات لحظية', def: 'Data that is processed and analyzed as it is generated.' }
+      ]
+    },
+    {
+      topicId: 'topic3',
+      pairs: [
+        { id: 'vm-t3-1', term: 'Supervised Learning', ar: 'التعلم الموجّه', def: 'A machine learning method where labeled data is used for training.' },
+        { id: 'vm-t3-2', term: 'Redundancy', ar: 'التكرار', def: 'The unnecessary repetition of tasks.' },
+        { id: 'vm-t3-3', term: 'Domain Knowledge', ar: 'المعرفة بالمجال', def: 'Knowledge specific to a particular field or industry.' },
+        { id: 'vm-t3-4', term: 'Ambiguous', ar: 'غامض', def: 'Open to multiple interpretations or unclear.' },
+        { id: 'vm-t3-5', term: 'Privacy Breach', ar: 'اختراق الخصوصية', def: 'The violation of data protection leading to unauthorized access.' }
+      ]
+    }
+  ];
+
+  /* Exact 75 Verbatim Source Questions (30 MCQ + 15 TF + 15 Fill + 15 Matching) */
+  var questions = [
+    /* TOPIC 1 MCQs (10) */
+    { id: 't1-mcq-1', topicId: 'topic1', type: 'mcq', q: 'What is the main purpose of data science?', qAr: 'ما هو الغرض الرئيسي من علم البيانات؟', opts: ['To store information in digital databases', 'To identify patterns and predict possible outcomes', 'To replace all traditional business tools', 'To collect data without analyzing it'], correct: 1, expEn: 'Data science discovers hidden patterns and predicts possible outcomes.', expAr: 'يهدف علم البيانات إلى اكتشاف الأنماط والتنبؤ بالنتائج المحتملة.' },
+    { id: 't1-mcq-2', topicId: 'topic1', type: 'mcq', q: 'How does a data scientist differ from a data analyst, according to the passage?', qAr: 'كيف يختلف عالم البيانات عن محلل البيانات؟', opts: ['A data scientist focuses only on historical events.', 'A data scientist avoids using statistical methods.', 'A data scientist uses advanced methods to predict outcomes.', 'A data scientist works exclusively with structured data.'], correct: 2, expEn: 'Data scientists use advanced algorithms to predict outcomes.', expAr: 'يستخدم عالم البيانات أساليب متقدمة للتنبؤ بالنتائج.' },
+    { id: 't1-mcq-3', topicId: 'topic1', type: 'mcq', q: 'What is the primary purpose of predictive causal analytics?', qAr: 'ما الغرض الأساسي للتحليلات التنبؤية السببية؟', opts: ['To predict possible future outcomes', 'To organize existing data into categories', 'To display information in simple charts', 'To explain previously recorded events'], correct: 0, expEn: 'Predictive causal analytics predicts possible future outcomes.', expAr: 'تتنبأ بالنتائج المستقبلية المحتملة.' },
+    { id: 't1-mcq-4', topicId: 'topic1', type: 'mcq', q: 'How does prescriptive analytics support decision-making?', qAr: 'كيف تدعم التحليلات التوجيهية اتخاذ القرار؟', opts: ['By collecting information from different sources', 'By recording events that have already occurred', 'By identifying patterns in historical information', 'By recommending actions based on available data'], correct: 3, expEn: 'Prescriptive analytics recommends actions based on data.', expAr: 'توصي بالإجراءات المناسبة بناءً على البيانات المتاحة.' },
+    { id: 't1-mcq-5', topicId: 'topic1', type: 'mcq', q: 'Why are traditional business intelligence tools sometimes insufficient today?', qAr: 'لماذا تكون أدوات ذكاء الأعمال التقليدية غير كافية أحياناً؟', opts: ['They cannot collect any historical information.', 'They struggle with large volumes of complex data.', 'They cannot analyze structured data sets.', 'They require data scientists to collect all data.'], correct: 1, expEn: 'Traditional BI struggles with large volumes of complex/unstructured data.', expAr: 'تواجه صعوبة مع الأحجام الضخمة من البيانات المعقدة.' },
+    { id: 't1-mcq-6', topicId: 'topic1', type: 'mcq', q: 'How can data science improve customer service?', qAr: 'كيف يحسّن علم البيانات خدمة العملاء؟', opts: ['By eliminating the need to study customer behavior', 'By providing identical products to all customers', 'By analyzing customer data to recommend suitable products', 'By replacing customer information with general assumptions'], correct: 2, expEn: 'Analyzing customer data enables tailored product recommendations.', expAr: 'بتحليل بيانات العملاء للتوصية بالمنتجات المناسبة.' },
+    { id: 't1-mcq-7', topicId: 'topic1', type: 'mcq', q: 'What enables self-driving cars to respond to their surroundings?', qAr: 'ما الذي يمكّن السيارات ذاتية القيادة من الاستجابة لمحيطها؟', opts: ['Sensors and algorithms that process collected information', 'Historical records stored in business databases', 'Instructions provided manually during every journey', 'Statistical reports prepared before each journey'], correct: 0, expEn: 'Sensors (lasers, radars, cameras) + ML algorithms.', expAr: 'المستشعرات والخوارزميات التي تعالج البيانات الحية.' },
+    { id: 't1-mcq-8', topicId: 'topic1', type: 'mcq', q: 'How does data science contribute to weather forecasting?', qAr: 'كيف يسهم علم البيانات في التنبؤ بالطقس؟', opts: ['By replacing observations with general predictions', 'By using customer data to estimate weather conditions', 'By relying exclusively on information from satellites', 'By analyzing data from multiple sources to build predictive models'], correct: 3, expEn: 'Combines aircraft, satellites, radars, and ships into predictive models.', expAr: 'بتحليل البيانات من مصادر متعددة لبناء نماذج تنبؤية.' },
+    { id: 't1-mcq-9', topicId: 'topic1', type: 'mcq', q: 'Which combination best describes the knowledge used by data scientists?', qAr: 'أي مزيج يصف معرفة علماء البيانات؟', opts: ['Literature, history, and language studies', 'Mathematics, statistics, and computer science', 'Marketing, accounting, and business communication', 'Geography, philosophy, and political science'], correct: 1, expEn: 'Mathematics, statistics, and computer science.', expAr: 'الرياضيات والإحصاء وعلوم الحاسب.' },
+    { id: 't1-mcq-10', topicId: 'topic1', type: 'mcq', q: 'Why do data scientists work with both structured and unstructured data?', qAr: 'لماذا يعمل علماء البيانات مع البيانات المنظمة وغير المنظمة؟', opts: ['To avoid using mathematical and statistical methods', 'To ensure that all data follows the same format', 'To extract useful information from different data types', 'To eliminate the need for advanced analytical tools'], correct: 2, expEn: 'To extract useful insights across all data types.', expAr: 'لاستخراج معلومات مفيدة من أنواع البيانات المختلفة.' },
+
+    /* TOPIC 2 MCQs (10) */
+    { id: 't2-mcq-1', topicId: 'topic2', type: 'mcq', q: 'What is the main purpose of the discovery phase in the data science lifecycle?', qAr: 'ما الغرض الرئيسي من مرحلة الاستكشاف؟', opts: ['To evaluate the final model results', 'To understand the project requirements and resources', 'To test the model using real-time data', 'To communicate the findings to the organization'], correct: 1, expEn: 'Discovery identifies requirements, budget, priorities, and resources.', expAr: 'فهم متطلبات المشروع والموارد المتاحة.' },
+    { id: 't2-mcq-2', topicId: 'topic2', type: 'mcq', q: 'Which of the following should be assessed during the discovery phase?', qAr: 'ما الذي يجب تقييمه خلال مرحلة الاستكشاف؟', opts: ['Model accuracy and final reports', 'Training data and testing results', 'Available resources, technology, and time', 'Visualization methods and model performance'], correct: 2, expEn: 'Assess available resources, people, technology, data, and time.', expAr: 'تقييم الموارد المتاحة والتكنولوجيا والوقت.' },
+    { id: 't2-mcq-3', topicId: 'topic2', type: 'mcq', q: 'What is the main purpose of preparing data before modeling?', qAr: 'ما الغرض من تحضير البيانات قبل النمذجة؟', opts: ['To clean and organize data for analysis', 'To communicate the results to the organization', 'To select the final model evaluation criteria', 'To deliver technical documents to stakeholders'], correct: 0, expEn: 'Clean, explore, and organize data before modeling.', expAr: 'تنظيف البيانات وتنظيمها للتحليل.' },
+    { id: 't2-mcq-4', topicId: 'topic2', type: 'mcq', q: 'Which of the following operations is associated with moving data into a sandbox environment?', qAr: 'أي عمليات ترتبط بنقل البيانات للبيئة التحليلية؟', opts: ['Classification, clustering, and association', 'Training, testing, and evaluating', 'Modeling, reporting, and communicating', 'Extracting, transforming, and loading'], correct: 3, expEn: 'ETL: Extracting, Transforming, and Loading.', expAr: 'الاستخراج والتحويل والتحميل (ETL).' },
+    { id: 't2-mcq-5', topicId: 'topic2', type: 'mcq', q: 'What is the primary objective of the plan-the-model phase?', qAr: 'ما الهدف الأساسي لمرحلة تخطيط النموذج؟', opts: ['To present the findings to the organization', 'To identify relationships and select suitable algorithms', 'To test the model in a production environment', 'To divide the data into training and testing sets'], correct: 1, expEn: 'Identify variable relationships and select suitable algorithms.', expAr: 'تحديد العلاقات واختيار الخوارزميات المناسبة.' },
+    { id: 't2-mcq-6', topicId: 'topic2', type: 'mcq', q: 'How does SQL support the modeling process, according to the passage?', qAr: 'كيف تدعم SQL عملية النمذجة؟', opts: ['By preparing reports for organizational communication', 'By collecting real-time information from sensors', 'By supporting database analysis and predictive modeling', 'By replacing all other modeling tools and techniques'], correct: 2, expEn: 'SQL supports in-database analysis and predictive modeling.', expAr: 'تدعم التحليل داخل قواعد البيانات والنمذجة التنبؤية.' },
+    { id: 't2-mcq-7', topicId: 'topic2', type: 'mcq', q: 'Why is a dataset divided into training and testing sets during the model-building phase?', qAr: 'لماذا تُقسَّم البيانات إلى تدريب واختبار في بناء النموذج؟', opts: ['To support model development and testing', "To identify the project's budget and priorities", 'To communicate the final findings to stakeholders', 'To determine the initial business requirements'], correct: 0, expEn: 'Training data develops the model; testing data evaluates it.', expAr: 'لدعم تطوير النموذج واختباره.' },
+    { id: 't2-mcq-8', topicId: 'topic2', type: 'mcq', q: 'Which techniques are mentioned as methods for developing a model?', qAr: 'أي تقنيات ذُكرت لتطوير النموذج؟', opts: ['Extraction, transformation, and loading', 'Reporting, documentation, and communication', 'Prediction, visualization, and data cleaning', 'Clustering, classification, and association'], correct: 3, expEn: 'Clustering, classification, and association.', expAr: 'التجميع والتصنيف والارتباط.' },
+    { id: 't2-mcq-9', topicId: 'topic2', type: 'mcq', q: 'What is the main purpose of operating the model?', qAr: 'ما الغرض الرئيسي من تشغيل النموذج؟', opts: ['To identify the initial project hypothesis', 'To examine performance using real-time data', 'To select the required analytical resources', "To determine the project's approved budget"], correct: 1, expEn: 'Examine model performance in production using real-time data.', expAr: 'فحص الأداء باستخدام البيانات اللحظية.' },
+    { id: 't2-mcq-10', topicId: 'topic2', type: 'mcq', q: 'What happens during the final phase of the data science lifecycle?', qAr: 'ماذا يحدث في المرحلة الأخيرة من دورة الحياة؟', opts: ['The data is cleaned and prepared for analysis.', 'The dataset is divided into training and testing sets.', 'The findings are evaluated and communicated to the organization.', 'The relationships between variables are initially identified.'], correct: 2, expEn: 'Evaluate key findings and communicate them to the organization.', expAr: 'تقييم النتائج وتوصيلها للمؤسسة.' },
+
+    /* TOPIC 3 MCQs (10) */
+    { id: 't3-mcq-1', topicId: 'topic3', type: 'mcq', q: 'Why is data science considered a field with abundant career opportunities?', qAr: 'لماذا يوفر علم البيانات فرصاً وظيفية وفيرة؟', opts: ['It requires no specialized knowledge or training.', 'It is used exclusively in the technology industry.', 'The demand for skilled data scientists exceeds their supply.', 'It allows employees to avoid learning new skills.'], correct: 2, expEn: 'Demand for skilled data scientists exceeds supply.', expAr: 'الطلب على علماء البيانات المهرة يفوق العرض.' },
+    { id: 't3-mcq-2', topicId: 'topic3', type: 'mcq', q: 'What makes data science a versatile career?', qAr: 'ما الذي يجعل علم البيانات مجالاً مرناً ومتنوعاً؟', opts: ['It can be applied across different industries.', 'It focuses on solving only technical problems.', 'It depends on a single set of professional skills.', 'It requires employees to work in one specialized field.'], correct: 0, expEn: 'Applied across healthcare, finance, e-commerce, and more.', expAr: 'يمكن تطبيقه عبر مختلف الصناعات.' },
+    { id: 't3-mcq-3', topicId: 'topic3', type: 'mcq', q: 'How does data science help companies make informed decisions?', qAr: 'كيف يساعد علم البيانات الشركات على اتخاذ قرارات مستنيرة؟', opts: ['By replacing all employees with automated systems', 'By reducing the amount of information collected', 'By avoiding the use of historical data', 'By analyzing and improving the quality of data'], correct: 3, expEn: 'By analyzing and improving data quality.', expAr: 'بتحليل البيانات وتحسين جودتها.' },
+    { id: 't3-mcq-4', topicId: 'topic3', type: 'mcq', q: 'How can data science reduce redundant tasks in organizations?', qAr: 'كيف يقلل علم البيانات المهام المتكررة؟', opts: ['By increasing the amount of manual work', 'By training machines to perform repetitive tasks', 'By preventing companies from collecting historical data', 'By replacing data analysis with human judgment'], correct: 1, expEn: 'Training machines automates repetitive tasks.', expAr: 'بتدريب الآلات على أداء المهام المتكررة.' },
+    { id: 't3-mcq-5', topicId: 'topic3', type: 'mcq', q: 'How do e-commerce websites use machine learning to improve customer experience?', qAr: 'كيف تستخدم مواقع التجارة الإلكترونية تعلم الآلة؟', opts: ["By removing customers' purchase histories", 'By providing identical recommendations to everyone', 'By recommending products based on customer behavior', 'By limiting the products available to customers'], correct: 2, expEn: 'Recommending products based on customer behavior.', expAr: 'بالتوصية بالمنتجات بناءً على سلوك العميل.' },
+    { id: 't3-mcq-6', topicId: 'topic3', type: 'mcq', q: 'Why is data science valuable in the healthcare sector?', qAr: 'لماذا يُعد علم البيانات قيّماً في الرعاية الصحية؟', opts: ['It can help detect diseases at an early stage.', 'It eliminates the need for medical professionals.', 'It guarantees accurate diagnoses in every case.', 'It prevents healthcare organizations from collecting data.'], correct: 0, expEn: 'Helps detect diseases and tumors at an early stage.', expAr: 'يساعد في الكشف المبكر عن الأمراض.' },
+    { id: 't3-mcq-7', topicId: 'topic3', type: 'mcq', q: 'Why is it difficult to define data science precisely?', qAr: 'لماذا يصعب تعريف علم البيانات بدقة؟', opts: ['It is limited to mathematics and statistics.', 'It has no practical applications outside technology.', 'It follows the same procedures in every organization.', 'Its meaning and responsibilities vary across contexts.'], correct: 3, expEn: 'Meaning and responsibilities vary across contexts.', expAr: 'تختلف معانيه ومسؤولياته حسب السياق.' },
+    { id: 't3-mcq-8', topicId: 'topic3', type: 'mcq', q: 'Why must data scientists continue learning throughout their careers?', qAr: 'لماذا يجب على علماء البيانات التعلم المستمر؟', opts: ['Their existing skills become completely useless over time.', 'The field changes frequently and involves multiple disciplines.', 'Employers require them to abandon their original specialties.', 'Their work depends entirely on changing business regulations.'], correct: 1, expEn: 'The field changes rapidly and spans multiple disciplines.', expAr: 'المجال يتغير باستمرار ويشمل تخصصات متعددة.' },
+    { id: 't3-mcq-9', topicId: 'topic3', type: 'mcq', q: 'Why is domain knowledge important when solving data science problems?', qAr: 'لماذا تُعد المعرفة بالمجال مهمة؟', opts: ['It eliminates the need for statistical analysis.', 'It allows data scientists to work without technical skills.', 'It helps them interpret data within a specific field.', 'It guarantees that all analytical results will be correct.'], correct: 2, expEn: 'Helps interpret data accurately within a specific field.', expAr: 'تساعد على تفسير البيانات ضمن مجال محدد.' },
+    { id: 't3-mcq-10', topicId: 'topic3', type: 'mcq', q: 'What is a major privacy risk associated with data science?', qAr: 'ما الخطر الرئيسي للخصوصية في علم البيانات؟', opts: ['Personal information may be exposed through data leaks.', 'Historical data may become unavailable for analysis.', 'Machine learning may require additional computing resources.', 'Data scientists may need to learn new programming languages.'], correct: 0, expEn: 'Personal data may be exposed through data leaks.', expAr: 'قد تنكشف المعلومات الشخصية عبر تسريبات البيانات.' },
+
+    /* 15 TRUE / FALSE (5 per topic) */
+    { id: 't1-tf-1', topicId: 'topic1', type: 'tf', q: 'Traditional business intelligence tools can easily handle unstructured data.', qAr: 'أدوات ذكاء الأعمال التقليدية تعالج البيانات غير المنظمة بسهولة.', opts: ['True', 'False'], correct: 1, expEn: 'False — traditional BI works best with structured data.', expAr: 'خطأ — تعمل أساساً مع البيانات المنظمة.' },
+    { id: 't1-tf-2', topicId: 'topic1', type: 'tf', q: 'A data scientist and a data analyst perform the same roles.', qAr: 'عالم البيانات ومحلل البيانات يؤديان نفس الدور.', opts: ['True', 'False'], correct: 1, expEn: 'False — their roles differ.', expAr: 'خطأ — لكل منهما دور مختلف.' },
+    { id: 't1-tf-3', topicId: 'topic1', type: 'tf', q: 'Self-driven cars use machine learning algorithms to make decisions.', qAr: 'تستخدم السيارات ذاتية القيادة خوارزميات تعلم الآلة لاتخاذ القرارات.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't1-tf-4', topicId: 'topic1', type: 'tf', q: 'Predictive causal analytics helps in predicting the outcomes of future events.', qAr: 'تساعد التحليلات التنبؤية السببية في التنبؤ بنتائج الأحداث المستقبلية.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't1-tf-5', topicId: 'topic1', type: 'tf', q: 'Data science can help recommend products to customers based on purchase history.', qAr: 'يساعد علم البيانات في التوصية بالمنتجات بناءً على سجل المشتريات.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't2-tf-1', topicId: 'topic2', type: 'tf', q: 'The first phase of the data science lifecycle is building the model.', qAr: 'المرحلة الأولى من دورة الحياة هي بناء النموذج.', opts: ['True', 'False'], correct: 1, expEn: 'False — Phase 1 is Discovery.', expAr: 'خطأ — المرحلة الأولى هي الاستكشاف.' },
+    { id: 't2-tf-2', topicId: 'topic2', type: 'tf', q: 'R and Python are commonly used for data preparation and visualization.', qAr: 'تُستخدم R و Python لتحضير البيانات وتصورها.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't2-tf-3', topicId: 'topic2', type: 'tf', q: 'Training and testing data sets are split during the planning phase.', qAr: 'تُقسَّم بيانات التدريب والاختبار خلال مرحلة التخطيط.', opts: ['True', 'False'], correct: 1, expEn: 'False — split in Phase 4 (Build the Model).', expAr: 'خطأ — تُقسَّم في مرحلة بناء النموذج.' },
+    { id: 't2-tf-4', topicId: 'topic2', type: 'tf', q: 'The purpose of the discovery phase is to frame the problem and form a hypothesis.', qAr: 'الغرض من الاستكشاف هو صياغة المشكلة وتكوين الفرضية.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't2-tf-5', topicId: 'topic2', type: 'tf', q: 'Communicating results is the last phase of the lifecycle.', qAr: 'توصيل النتائج هو المرحلة الأخيرة في دورة الحياة.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't3-tf-1', topicId: 'topic3', type: 'tf', q: 'Data science is a versatile field applied only in healthcare.', qAr: 'علم البيانات مجال متنوع يُطبَّق في الرعاية الصحية فقط.', opts: ['True', 'False'], correct: 1, expEn: 'False — applied across many industries.', expAr: 'خطأ — يُطبَّق في صناعات عديدة.' },
+    { id: 't3-tf-2', topicId: 'topic3', type: 'tf', q: 'Data scientists earn an average of $160,000 annually, according to Glassdoor.', qAr: 'يكسب علماء البيانات متوسط 160,000 دولار سنوياً وفق Glassdoor (بحسب المقرر).', opts: ['True', 'False'], correct: 0, expEn: 'True (per course PDF).', expAr: 'صحيح وفقاً لملف المقرر.' },
+    { id: 't3-tf-3', topicId: 'topic3', type: 'tf', q: 'Domain knowledge is not essential to solving specific data science problems.', qAr: 'المعرفة بالمجال ليست ضرورية لحل مشكلات علم البيانات.', opts: ['True', 'False'], correct: 1, expEn: 'False — domain knowledge is essential.', expAr: 'خطأ — المعرفة بالمجال ضرورية.' },
+    { id: 't3-tf-4', topicId: 'topic3', type: 'tf', q: 'Data science uses algorithms to analyze patterns in data and make predictions.', qAr: 'يستخدم علم البيانات الخوارزميات لتحليل الأنماط وإجراء التنبؤات.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+    { id: 't3-tf-5', topicId: 'topic3', type: 'tf', q: 'Data privacy concerns arise due to improper security measures by companies.', qAr: 'تنشأ مخاوف الخصوصية بسبب ضعف إجراءات الأمان.', opts: ['True', 'False'], correct: 0, expEn: 'True.', expAr: 'صحيح.' },
+
+    /* 15 FILL IN THE BLANKS (5 per topic) */
+    { id: 't1-fill-1', topicId: 'topic1', type: 'fill', q: 'A __________ uses advanced algorithms to identify patterns and probabilities in data.', qAr: 'يستخدم __________ خوارزميات متقدمة لتحديد الأنماط والاحتمالات.', ans: ['data scientist'], display: 'data scientist', expEn: 'data scientist.', expAr: 'عالم البيانات (data scientist).' },
+    { id: 't1-fill-2', topicId: 'topic1', type: 'fill', q: '__________ analytics focuses on making informed decisions by modifying parameters in a data set.', qAr: 'تركز التحليلات __________ على تعديل المعاملات واتخاذ القرار.', ans: ['prescriptive'], display: 'Prescriptive', expEn: 'Prescriptive analytics.', expAr: 'التحليلات التوجيهية (Prescriptive).' },
+    { id: 't1-fill-3', topicId: 'topic1', type: 'fill', q: 'Most traditional business intelligence tools work best with __________.', qAr: 'تعمل أدوات ذكاء الأعمال التقليدية بشكل أفضل مع __________.', ans: ['structured data', 'structured'], display: 'structured data', expEn: 'structured data.', expAr: 'البيانات المنظمة (structured data).' },
+    { id: 't1-fill-4', topicId: 'topic1', type: 'fill', q: 'Self-driven cars rely on data collected from sensors such as __________.', qAr: 'تعتمد السيارات ذاتية القيادة على مستشعرات مثل __________.', ans: ['lasers, radars, and cameras', 'lasers radars and cameras'], display: 'lasers, radars, and cameras', expEn: 'lasers, radars, and cameras.', expAr: 'الليزر والرادارات والكاميرات.' },
+    { id: 't1-fill-5', topicId: 'topic1', type: 'fill', q: 'Weather forecasting is an example of __________ analytics in data science.', qAr: 'التنبؤ بالطقس مثال على التحليلات __________.', ans: ['predictive'], display: 'predictive', expEn: 'predictive analytics.', expAr: 'التحليلات التنبؤية (predictive).' },
+    { id: 't2-fill-1', topicId: 'topic2', type: 'fill', q: 'In the __________ phase, you identify the business requirements and frame the problem.', qAr: 'في مرحلة __________ تحدد متطلبات العمل وتصوغ المشكلة.', ans: ['discovery'], display: 'discovery', expEn: 'discovery phase.', expAr: 'مرحلة الاستكشاف (discovery).' },
+    { id: 't2-fill-2', topicId: 'topic2', type: 'fill', q: 'During data preparation, you process, __________, and condition the data before modeling.', qAr: 'خلال تحضير البيانات تقوم بالمعالجة و__________ والتهيئة.', ans: ['explore'], display: 'explore', expEn: 'process, explore, and condition.', expAr: 'استكشاف (explore).' },
+    { id: 't2-fill-3', topicId: 'topic2', type: 'fill', q: '__________ is a programming language often used for modeling and analysis.', qAr: '__________ هي لغة برمجة شائعة للنمذجة والتحليل.', ans: ['r'], display: 'R', expEn: 'R (per solved PDF).', expAr: 'لغة R.' },
+    { id: 't2-fill-4', topicId: 'topic2', type: 'fill', q: 'The __________ phase involves running the model on real-time data and delivering reports.', qAr: 'تتضمن مرحلة __________ تشغيل النموذج على البيانات اللحظية.', ans: ['operate the model', 'operate'], display: 'Operate the Model', expEn: 'Operate the Model.', expAr: 'تشغيل النموذج (Operate the Model).' },
+    { id: 't2-fill-5', topicId: 'topic2', type: 'fill', q: 'The results of the model are communicated during the __________ phase.', qAr: 'تُعرَض نتائج النموذج في مرحلة __________.', ans: ['communicate the results'], display: 'communicate the results', expEn: 'communicate the results.', expAr: 'توصيل النتائج (communicate the results).' },
+    { id: 't3-fill-1', topicId: 'topic3', type: 'fill', q: 'Many companies use __________ systems to provide product suggestions to customers.', qAr: 'تستخدم الشركات أنظمة __________ لاقتراح المنتجات.', ans: ['recommendation'], display: 'recommendation', expEn: 'recommendation systems.', expAr: 'أنظمة التوصية (recommendation).' },
+    { id: 't3-fill-2', topicId: 'topic3', type: 'fill', q: 'Data science requires a lot of __________ in fields like mathematics, computer science, and the specific industry.', qAr: 'يتطلب علم البيانات قدراً كبيراً من __________.', ans: ['domain knowledge'], display: 'domain knowledge', expEn: 'domain knowledge.', expAr: 'المعرفة بالمجال (domain knowledge).' },
+    { id: 't3-fill-3', topicId: 'topic3', type: 'fill', q: 'A __________ occurs when sensitive information is accessed by unauthorized parties.', qAr: 'يحدث __________ عند وصول أطراف غير مصرح لها للمعلومات.', ans: ['privacy breach'], display: 'privacy breach', expEn: 'privacy breach.', expAr: 'اختراق الخصوصية (privacy breach).' },
+    { id: 't3-fill-4', topicId: 'topic3', type: 'fill', q: 'In __________ learning, the system identifies patterns without labeled data.', qAr: 'في التعلم __________ يكتشف النظام الأنماط دون بيانات مصنّفة.', ans: ['unsupervised'], display: 'unsupervised', expEn: 'unsupervised learning.', expAr: 'التعلم غير الموجّه (unsupervised).' },
+    { id: 't3-fill-5', topicId: 'topic3', type: 'fill', q: 'The healthcare industry uses machine learning algorithms for __________.', qAr: 'يستخدم قطاع الرعاية الصحية تعلم الآلة في __________.', ans: ['tumor detection'], display: 'tumor detection', expEn: 'tumor detection.', expAr: 'اكتشاف الأورام (tumor detection).' }
+  ];
+
+  /* Append 15 Vocabulary Matching items -> total = 75 exact items */
+  matchingSets.forEach(function (set) {
+    var defs = set.pairs.map(function (p) { return p.def; });
+    set.pairs.forEach(function (p, i) {
+      questions.push({
+        id: 'match-' + p.id, topicId: set.topicId, type: 'matching',
+        q: 'Match the term "' + p.term + '" with its correct definition:',
+        qAr: 'طابق المصطلح "' + p.term + '" (' + p.ar + ') مع تعريفه:',
+        opts: defs.slice(), correct: i,
+        expEn: p.term + ': ' + p.def,
+        expAr: p.ar + ': ' + p.def
+      });
+    });
+  });
+
+  return { topics: topics, matchingSets: matchingSets, questions: questions };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Local Spaced Repetition Engine (js/spaced-repetition.js)
+   Categories: Again (1 min), Hard (10 min), Good (1 day), Easy (4 days)
+   ========================================================================== */
+
+window.MSHUB_SRS = (function () {
+  var INTERVALS_MIN = {
+    again: 1,
+    hard: 10,
+    good: 1440,   /* 1 day */
+    easy: 5760    /* 4 days */
+  };
+
+  function rate(qId, rating) {
+    var baseMin = INTERVALS_MIN[rating] || 10;
+    return window.MSHUB_STORAGE.update(function (st) {
+      window.MSHUB_STORAGE.touchStreak(st);
+      var prev = st.srs[qId] || { reps: 0, intervalMin: 0 };
+      var nextMin = baseMin;
+      if (rating === 'good' && prev.reps >= 1) nextMin = Math.round(Math.max(baseMin, prev.intervalMin * 1.8));
+      if (rating === 'easy' && prev.reps >= 1) nextMin = Math.round(Math.max(baseMin, prev.intervalMin * 2.5));
+      st.srs[qId] = {
+        rating: rating,
+        reps: rating === 'again' ? 0 : prev.reps + 1,
+        intervalMin: nextMin,
+        lastReviewedAt: Date.now(),
+        nextReviewAt: Date.now() + nextMin * 60000
+      };
+    });
+  }
+
+  function getOrderedQueue(questions) {
+    var st = window.MSHUB_STORAGE.load();
+    var now = Date.now();
+    return questions.slice().sort(function (a, b) {
+      var sa = st.srs[a.id], sb = st.srs[b.id];
+      var pa = scorePriority(sa, now);
+      var pb = scorePriority(sb, now);
+      return pb - pa;
+    });
+  }
+
+  function scorePriority(rec, now) {
+    if (!rec) return 50; /* Unseen card */
+    var overdue = rec.nextReviewAt <= now;
+    if (rec.rating === 'again') return overdue ? 120 : 95;
+    if (rec.rating === 'hard') return overdue ? 105 : 75;
+    if (overdue) return 85;
+    if (rec.rating === 'good') return 25;
+    return 10; /* easy & not due */
+  }
+
+  function getDueCount(questions) {
+    var st = window.MSHUB_STORAGE.load();
+    var now = Date.now();
+    return questions.filter(function (q) {
+      var r = st.srs[q.id];
+      return !r || r.nextReviewAt <= now || r.rating === 'again' || r.rating === 'hard';
+    }).length;
+  }
+
+  return {
+    rate: rate,
+    getOrderedQueue: getOrderedQueue,
+    getDueCount: getDueCount
+  };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Flashcards & Active Recall (js/flashcards.js)
+   Integrated with Spaced Repetition (Again / Hard / Good / Easy).
+   ========================================================================== */
+
+window.MSHUB_FLASHCARDS = (function () {
+  var queue = [];
+  var revealed = false;
+
+  function refresh() {
+    queue = window.MSHUB_SRS.getOrderedQueue(window.MSHUB_DATA.questions);
+    revealed = false;
+  }
+
+  function ensure() { if (!queue.length) refresh(); }
+
+  return {
+    getState: function () {
+      ensure();
+      return {
+        current: queue[0] || null,
+        dueCount: window.MSHUB_SRS.getDueCount(window.MSHUB_DATA.questions),
+        total: queue.length,
+        revealed: revealed
+      };
+    },
+    reveal: function () { revealed = !revealed; },
+    rateCurrent: function (rating) {
+      ensure();
+      if (!queue[0]) return;
+      window.MSHUB_SRS.rate(queue[0].id, rating);
+      refresh();
+    }
+  };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Study Topics Renderer & SVG Diagrams (js/study.js)
+   ========================================================================== */
+
+window.MSHUB_STUDY = (function () {
+  var activeTopic = 'topic1';
+  var checkAnswers = {};
+
+  function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  function renderDiagram(kind) {
+    if (kind === 'workflow') {
+      return '<div class="card-alt" style="margin:14px 0;overflow-x:auto;"><svg viewBox="0 0 640 110" role="img" aria-label="Data Science Workflow">' +
+        box(10, 20, 145, 'Raw Data', 'Structured & Unstructured') + arr(158, 50, 176, 50) +
+        box(178, 20, 145, 'Algorithms', 'Math, Stats & CS') + arr(326, 50, 344, 50) +
+        box(346, 20, 136, 'Predictive', 'What might happen?') + arr(484, 50, 502, 50) +
+        box(504, 20, 126, 'Prescriptive', 'What to do?', true) + '</svg></div>';
+    }
+    if (kind === 'lifecycle') {
+      return '<div class="card-alt" style="margin:14px 0;overflow-x:auto;"><svg viewBox="0 0 660 150" role="img" aria-label="6-Phase Data Science Life Cycle">' +
+        box(10, 12, 195, '01. Discovery', 'Requirements & Hypothesis') + arr(208, 42, 226, 42) +
+        box(228, 12, 195, '02. Data Prep', 'Sandbox, ETL, R/Python') + arr(426, 42, 444, 42) +
+        box(446, 12, 200, '03. Plan Model', 'EDA, R, SQL, SAS') +
+        box(10, 82, 195, '04. Build Model', 'Train/Test, Cluster/Classify') + arr(208, 112, 226, 112) +
+        box(228, 82, 195, '05. Operate', 'Production & Real-time') + arr(426, 112, 444, 112) +
+        box(446, 82, 200, '06. Communicate', 'Evaluate & Share Findings', true) + '</svg></div>';
+    }
+    if (kind === 'supervised') {
+      return '<div class="card-alt" style="margin:14px 0;overflow-x:auto;"><svg viewBox="0 0 640 110" role="img" aria-label="Supervised vs Unsupervised">' +
+        box(14, 18, 290, 'Supervised Learning', 'Trained on LABELED data (e.g., Classification)', true) +
+        box(336, 18, 290, 'Unsupervised Learning', 'Finds patterns WITHOUT labeled data', false) + '</svg></div>';
+    }
+    return '';
+  }
+  function box(x, y, w, a, b, hi) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="58" rx="4" fill="' + (hi ? '#556846' : '#231F1C') + '" stroke="#B45E43" stroke-width="1"/>' +
+           '<text x="' + (x + w / 2) + '" y="' + (y + 25) + '" text-anchor="middle" fill="#FDFBF7" font-size="11.5" font-weight="700">' + a + '</text>' +
+           '<text x="' + (x + w / 2) + '" y="' + (y + 43) + '" text-anchor="middle" fill="#DED6C8" font-size="9.5">' + b + '</text>';
+  }
+  function arr(x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#B45E43" stroke-width="2"/>'; }
+
+  function render(root) {
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, lang = window.MSHUB_I18N.getLang(), st = window.MSHUB_STORAGE.load();
+    var tp = window.MSHUB_DATA.topics.find(function (x) { return x.id === activeTopic; }) || window.MSHUB_DATA.topics[0];
+    var isDone = (st.completedTopics || []).indexOf(tp.id) !== -1;
+
+    var checks = tp.checkIds.map(function (id) { return window.MSHUB_DATA.questions.find(function (q) { return q.id === id; }); }).filter(Boolean);
+
+    root.innerHTML =
+      '<div class="page-head">' +
+        '<div class="eyebrow">M&lt;&gt;S · ' + t('navStudy') + '</div>' +
+        '<h1 class="page-title">' + t('studyTitle') + '</h1>' +
+        '<p class="page-sub">' + t('studySub') + '</p>' +
+      '</div>' +
+
+      '<div class="tabs">' + window.MSHUB_DATA.topics.map(function (item) {
+        return '<button class="tab ' + (item.id === tp.id ? 'active' : '') + '" data-st-t="' + item.id + '">Topic ' + item.num + ': ' + esc(lang === 'ar' ? item.titleAr : item.titleEn) + '</button>';
+      }).join('') + '</div>' +
+
+      '<article class="card" style="display:flex;flex-direction:column;gap:18px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">' +
+          '<div><div class="eyebrow">TOPIC ' + tp.num + '</div><h2 style="margin:4px 0 0;font-size:1.4rem;">' + esc(tp.titleEn) + '</h2><div style="color:var(--accent);font-weight:700;">' + esc(tp.titleAr) + '</div></div>' +
+          '<button class="btn btn-sm ' + (isDone ? 'btn-secondary' : 'btn-primary') + '" id="st-done-btn">' + (isDone ? '&#10003; ' + t('completed') : t('markComplete')) + '</button>' +
+        '</div>' +
+        renderDiagram(tp.diagram) +
+        '<div class="grid-2">' +
+          '<div class="card-alt"><h3 style="margin:0 0 8px;font-size:1rem;color:var(--olive);">' + t('enExplain') + '</h3>' + tp.enExplain.map(function (p) { return '<p style="margin:0 0 8px;font-size:0.9rem;">' + esc(p) + '</p>'; }).join('') + '</div>' +
+          '<div class="card-alt" dir="rtl" style="text-align:right;"><h3 style="margin:0 0 8px;font-size:1rem;color:var(--accent);">' + t('arExplain') + '</h3>' + tp.arExplain.map(function (p) { return '<p style="margin:0 0 8px;font-size:0.92rem;">' + esc(p) + '</p>'; }).join('') + '</div>' +
+        '</div>' +
+        '<div><h3 style="margin:0 0 10px;font-size:1rem;">' + t('impVocab') + '</h3><div class="grid-2">' +
+          tp.vocab.map(function (v) { return '<div class="card-alt"><strong>' + esc(v[0]) + '</strong> · <span style="color:var(--accent);font-weight:700;">' + esc(v[1]) + '</span><div style="font-size:0.85rem;color:var(--text-muted);margin-top:4px;">' + esc(v[2]) + '</div></div>'; }).join('') +
+        '</div></div>' +
+        '<div class="grid-2">' +
+          '<div><h3 style="margin:0 0 8px;font-size:1rem;">' + t('keyConcepts') + '</h3><ul style="margin:0;padding-inline-start:20px;">' + tp.keyConcepts.map(function (k) { return '<li style="margin-bottom:5px;">' + esc(k) + '</li>'; }).join('') + '</ul></div>' +
+          '<div><h3 style="margin:0 0 8px;font-size:1rem;">' + t('examples') + '</h3><ul style="margin:0;padding-inline-start:20px;">' + tp.examples.map(function (e) { return '<li style="margin-bottom:5px;">' + esc(e) + '</li>'; }).join('') + '</ul></div>' +
+        '</div>' +
+        '<div class="callout-terracotta"><strong>' + t('impNotes') + ':</strong> ' + esc(tp.notes.join(' ')) + '</div>' +
+        '<div><h3 style="margin:0 0 8px;font-size:1rem;color:var(--err);">' + t('commonMistakes') + '</h3><ul style="margin:0;padding-inline-start:20px;">' + tp.commonMistakes.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>' +
+        '<div><h3 style="margin:0 0 10px;font-size:1rem;">' + t('quickCheck') + '</h3>' +
+          checks.map(function (q, i) {
+            var res = checkAnswers[q.id];
+            return '<div class="card-alt" style="margin-bottom:10px;"><p style="margin:0 0 8px;font-weight:700;">' + (i + 1) + '. ' + esc(q.q) + '</p>' +
+              (q.type === 'fill'
+                ? '<div style="display:flex;gap:8px;"><input class="input" style="max-width:260px;" data-ck-inp="' + q.id + '" placeholder="' + esc(t('fillPlaceholder')) + '"><button class="btn btn-primary btn-sm" data-ck-fill="' + q.id + '">' + t('checkFill') + '</button></div>'
+                : '<div class="opt-list">' + q.opts.map(function (o, oi) {
+                    var cls = res ? (oi === q.correct ? ' ok' : (oi === res.picked ? ' err' : '')) : '';
+                    return '<button class="opt-btn' + cls + '" data-ck-opt="' + q.id + '" data-oi="' + oi + '" ' + (res ? 'disabled' : '') + '>' + esc(o) + '</button>';
+                  }).join('') + '</div>') +
+              (res ? '<div class="fb-box ' + (res.ok ? 'ok' : 'err') + '">' + esc(lang === 'ar' ? q.expAr : q.expEn) + '</div>' : '') +
+            '</div>';
+          }).join('') +
+        '</div>' +
+      '</article>';
+
+    root.querySelectorAll('[data-st-t]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        activeTopic = b.getAttribute('data-st-t');
+        window.MSHUB_STORAGE.update(function (s) { s.lastTopic = activeTopic; });
+        render(root);
+      });
+    });
+    document.getElementById('st-done-btn').addEventListener('click', function () {
+      window.MSHUB_STORAGE.update(function (s) {
+        window.MSHUB_STORAGE.touchStreak(s);
+        var i = s.completedTopics.indexOf(tp.id);
+        if (i === -1) s.completedTopics.push(tp.id); else s.completedTopics.splice(i, 1);
+      });
+      render(root);
+    });
+    root.querySelectorAll('[data-ck-opt]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var qid = b.getAttribute('data-ck-opt'), oi = Number(b.getAttribute('data-oi'));
+        var q = window.MSHUB_DATA.questions.find(function (x) { return x.id === qid; });
+        var ok = oi === q.correct;
+        checkAnswers[qid] = { picked: oi, ok: ok };
+        window.MSHUB_STORAGE.recordAnswer(qid, ok, q.opts[oi]);
+        render(root);
+      });
+    });
+    root.querySelectorAll('[data-ck-fill]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var qid = b.getAttribute('data-ck-fill');
+        var q = window.MSHUB_DATA.questions.find(function (x) { return x.id === qid; });
+        var val = (root.querySelector('[data-ck-inp="' + qid + '"]').value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+        var ok = q.ans.some(function (a) { return a.toLowerCase() === val; });
+        checkAnswers[qid] = { ok: ok };
+        window.MSHUB_STORAGE.recordAnswer(qid, ok, val);
+        render(root);
+      });
+    });
+  }
+
+  return {
+    setTopic: function (tid) { activeTopic = tid; },
+    render: render
+  };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Instant-Feedback Quiz Engine (js/quiz.js)
+   NO Submit button: immediate evaluation on click for MCQ, T/F, & Matching;
+   randomized option positions preserving exact correct mapping.
+   ========================================================================== */
+
+window.MSHUB_QUIZ = (function () {
+  var sess = null;
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function shuffleOptions(q) {
+    if ((q.type === 'mcq' || q.type === 'matching') && q.opts && q.opts.length > 2) {
+      var idxed = q.opts.map(function (o, i) { return { o: o, ok: i === q.correct }; });
+      var sh = shuffle(idxed);
+      return Object.assign({}, q, {
+        opts: sh.map(function (x) { return x.o; }),
+        correct: sh.findIndex(function (x) { return x.ok; })
+      });
+    }
+    return Object.assign({}, q);
+  }
+
+  function norm(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.,;:!?]+$/g, ''); }
+
+  function start(cfg) {
+    if (cfg.type === 'matching') {
+      var sets = cfg.topic && cfg.topic !== 'all'
+        ? window.MSHUB_DATA.matchingSets.filter(function (s) { return s.topicId === cfg.topic; })
+        : window.MSHUB_DATA.matchingSets;
+      sess = {
+        mode: 'matching', cfg: cfg,
+        boards: sets.map(function (s) {
+          return {
+            topicId: s.topicId,
+            terms: s.pairs.slice(),
+            defs: shuffle(s.pairs.slice()),
+            pickedTerm: null,
+            matched: {}, /* termId -> true */
+            lastErr: null,
+            mistakes: 0
+          };
+        }),
+        boardIdx: 0, score: 0, total: sets.reduce(function (acc, s) { return acc + s.pairs.length; }, 0),
+        wrongIds: [], finished: false
+      };
+      return sess;
+    }
+
+    var pool = window.MSHUB_DATA.questions.filter(function (q) {
+      if (cfg.onlyIds) return cfg.onlyIds.indexOf(q.id) !== -1;
+      if (cfg.topic && cfg.topic !== 'all' && q.topicId !== cfg.topic) return false;
+      if (cfg.type && cfg.type !== 'all' && q.type !== cfg.type) return false;
+      return true;
+    });
+    if (!pool.length) return null;
+
+    var ordered = cfg.shuffled !== false ? shuffle(pool) : pool.slice();
+    var chosen = ordered.slice(0, Math.min(cfg.count || 10, ordered.length)).map(shuffleOptions);
+    sess = {
+      mode: 'standard', cfg: cfg, questions: chosen, index: 0,
+      locked: {}, score: 0, wrongIds: [], finished: false
+    };
+    return sess;
+  }
+
+  /* Immediate evaluation on MCQ / T/F click */
+  function selectOption(optIdx) {
+    if (!sess || sess.mode !== 'standard' || sess.finished) return null;
+    var q = sess.questions[sess.index];
+    if (!q || sess.locked[q.id]) return null;
+    var ok = Number(optIdx) === Number(q.correct);
+    sess.locked[q.id] = { picked: Number(optIdx), ok: ok };
+    if (ok) sess.score += 1; else sess.wrongIds.push(q.id);
+    window.MSHUB_STORAGE.recordAnswer(q.id, ok, q.opts[optIdx]);
+    return sess.locked[q.id];
+  }
+
+  /* Immediate evaluation on Fill check */
+  function checkFill(val) {
+    if (!sess || sess.mode !== 'standard' || sess.finished) return null;
+    var q = sess.questions[sess.index];
+    if (!q || sess.locked[q.id]) return null;
+    var ok = (q.ans || []).some(function (a) { return norm(a) === norm(val); });
+    sess.locked[q.id] = { typed: val, ok: ok };
+    if (ok) sess.score += 1; else sess.wrongIds.push(q.id);
+    window.MSHUB_STORAGE.recordAnswer(q.id, ok, val || '—');
+    return sess.locked[q.id];
+  }
+
+  /* Immediate evaluation on Matching pair click */
+  function matchDefClick(defId) {
+    if (!sess || sess.mode !== 'matching') return null;
+    var b = sess.boards[sess.boardIdx];
+    if (!b || !b.pickedTerm || b.matched[b.pickedTerm]) return null;
+    var ok = b.pickedTerm === defId;
+    var termObj = b.terms.find(function (t) { return t.id === b.pickedTerm; });
+    var defObj = b.defs.find(function (d) { return d.id === defId; });
+    if (ok) {
+      b.matched[b.pickedTerm] = true;
+      b.lastErr = null;
+      sess.score += 1;
+      window.MSHUB_STORAGE.recordAnswer('match-' + b.pickedTerm, true, defObj.def);
+    } else {
+      b.mistakes += 1;
+      b.lastErr = { term: termObj.term, def: defObj.def };
+      if (sess.wrongIds.indexOf('match-' + b.pickedTerm) === -1) sess.wrongIds.push('match-' + b.pickedTerm);
+      window.MSHUB_STORAGE.recordAnswer('match-' + b.pickedTerm, false, defObj.def);
+    }
+    b.pickedTerm = null;
+    return ok;
+  }
+
+  function next() {
+    if (!sess) return;
+    if (sess.mode === 'matching') {
+      if (sess.boardIdx < sess.boards.length - 1) sess.boardIdx += 1;
+      else finish();
+      return;
+    }
+    if (sess.index < sess.questions.length - 1) sess.index += 1;
+    else finish();
+  }
+
+  function finish() {
+    if (!sess || sess.finished) return;
+    sess.finished = true;
+    var tot = sess.mode === 'matching' ? sess.total : sess.questions.length;
+    var pct = tot ? Math.round((sess.score / tot) * 100) : 0;
+    window.MSHUB_STORAGE.update(function (st) {
+      st.quizHistory.unshift({ ts: Date.now(), score: sess.score, total: tot, pct: pct });
+    });
+  }
+
+  return {
+    shuffleOptions: shuffleOptions,
+    start: start, selectOption: selectOption, checkFill: checkFill, matchDefClick: matchDefClick,
+    next: next, getSession: function () { return sess; }, clear: function () { sess = null; }
+  };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Real Progress Analytics (js/progress.js)
+   ========================================================================== */
+
+window.MSHUB_PROGRESS = (function () {
+  function compute() {
+    var st = window.MSHUB_STORAGE.load();
+    var qs = window.MSHUB_DATA.questions;
+    var answeredUnique = 0, correctTotal = 0, wrongTotal = 0;
+
+    qs.forEach(function (q) {
+      var s = st.questionStats[q.id];
+      if (s && s.attempts > 0) {
+        answeredUnique += 1;
+        correctTotal += s.correct;
+        wrongTotal += s.wrong;
+      }
+    });
+
+    var totalAttempts = correctTotal + wrongTotal;
+    var accuracy = totalAttempts ? Math.round((correctTotal / totalAttempts) * 100) : 0;
+    var overallPct = Math.round(((answeredUnique / Math.max(1, qs.length)) * 70) + (((st.completedTopics || []).length / 3) * 30));
+
+    var perTopic = window.MSHUB_DATA.topics.map(function (tp) {
+      var tqs = qs.filter(function (q) { return q.topicId === tp.id; });
+      var ans = tqs.filter(function (q) { return st.questionStats[q.id] && st.questionStats[q.id].attempts > 0; }).length;
+      return {
+        topicId: tp.id,
+        answered: ans,
+        total: tqs.length,
+        pct: Math.round((ans / Math.max(1, tqs.length)) * 100),
+        completed: (st.completedTopics || []).indexOf(tp.id) !== -1
+      };
+    });
+
+    var activeMistakes = Object.keys(st.mistakes || {}).filter(function (k) { return !st.mistakes[k].mastered; });
+
+    return {
+      totalTopics: 3,
+      totalQuestions: qs.length,
+      answeredUnique: answeredUnique,
+      correctTotal: correctTotal,
+      wrongTotal: wrongTotal,
+      accuracy: accuracy,
+      overallPct: Math.min(100, overallPct),
+      streak: st.streak || 0,
+      perTopic: perTopic,
+      activeMistakes: activeMistakes,
+      dueSrs: window.MSHUB_SRS.getDueCount(qs)
+    };
+  }
+
+  return { compute: compute };
+})();
+
+/* ==========================================================================
+   M<>S Study Hub — Main Application Orchestrator (js/app.js)
+   Supports Multi-Page static hosting AND Canvas SPA preview seamlessly.
+   ========================================================================== */
+
+window.MSHUB_APP = (function () {
+  var ui = { page: 'home', practiceTab: 'srs', mistakeTopic: 'all', searchQ: '' };
+
+  function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function toast(msg) {
+    var el = document.getElementById('mshub-toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.classList.remove('show'); }, 2400);
+  }
+  function isSpa() { return document.body.getAttribute('data-mode') === 'spa'; }
+
+  function go(page, topicId) {
+    if (topicId) {
+      window.MSHUB_STUDY.setTopic(topicId);
+      window.MSHUB_STORAGE.update(function (s) { s.lastTopic = topicId; });
+    }
+    if (isSpa()) {
+      ui.page = page;
+      document.querySelectorAll('.spa-view').forEach(function (v) { v.classList.toggle('active', v.id === 'page-' + page); });
+      document.querySelectorAll('[data-nav]').forEach(function (n) { n.classList.toggle('active', n.getAttribute('data-nav') === page); });
+      var dr = document.getElementById('mobile-drawer'); if (dr) dr.classList.remove('open');
+      render();
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      return;
+    }
+    var inSub = window.location.pathname.indexOf('/pages/') !== -1;
+    var target = page === 'home' ? (inSub ? '../index.html' : 'index.html') : (inSub ? page + '.html' : 'pages/' + page + '.html');
+    if (topicId) target += '?topic=' + encodeURIComponent(topicId);
+    window.location.href = target;
+  }
+
+  function syncChrome() {
+    var t = window.MSHUB_I18N.t, th = window.MSHUB_STORAGE.load().theme || 'light';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
+    var lb = document.getElementById('btn-lang'); if (lb) lb.textContent = t('langBtn');
+    var tb = document.getElementById('btn-theme'); if (tb) tb.textContent = th === 'light' ? t('darkBtn') : t('lightBtn');
+  }
+
+  /* ==================== HOME / DASHBOARD ==================== */
+  function renderHome() {
+    var root = document.getElementById('page-home');
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, lang = window.MSHUB_I18N.getLang(), st = window.MSHUB_STORAGE.load();
+    var p = window.MSHUB_PROGRESS.compute();
+    var circ = 2 * Math.PI * 34;
+    var offset = circ * (1 - p.overallPct / 100);
+
+    root.innerHTML =
+      '<section class="dash-hero">' +
+        '<div class="ring-wrap">' +
+          '<svg class="ring-svg" viewBox="0 0 80 80"><circle class="ring-bg" cx="40" cy="40" r="34"/><circle class="ring-fg" cx="40" cy="40" r="34" stroke-dasharray="' + circ.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '"/><text x="40" y="45" text-anchor="middle" fill="currentColor" font-size="16" font-weight="800">' + p.overallPct + '%</text></svg>' +
+          '<div>' +
+            '<div class="eyebrow">M&lt;&gt;S · ' + t('brandFull') + '</div>' +
+            '<h1 class="page-title" style="margin:2px 0 4px;">' + t('welcome') + '</h1>' +
+            '<p class="page-sub">' + t('welcomeSub') + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;flex-shrink:0;">' +
+          '<button class="btn btn-primary" data-jump="study" data-tp="' + esc(st.lastTopic || 'topic1') + '">' + t('continueBtn') + '</button>' +
+          '<button class="btn btn-accent" data-jump="quiz">' + t('startQuizBtn') + '</button>' +
+          '<button class="btn btn-secondary" data-jump="mistakes">' + t('reviewMistakesBtn') + (p.activeMistakes.length ? ' (' + p.activeMistakes.length + ')' : '') + '</button>' +
+        '</div>' +
+      '</section>' +
+
+      '<section class="stats-strip">' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statTopics') + '</div><div class="stat-v">' + p.totalTopics + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statTotalQ') + '</div><div class="stat-v">' + p.totalQuestions + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statAnswered') + '</div><div class="stat-v">' + p.answeredUnique + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statCorrect') + '</div><div class="stat-v">' + p.correctTotal + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statAccuracy') + '</div><div class="stat-v">' + (p.correctTotal + p.wrongTotal ? p.accuracy + '%' : '—') + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statStreak') + '</div><div class="stat-v">' + p.streak + ' <span style="font-size:0.8rem;color:var(--text-muted);">' + t('days') + '</span></div></div>' +
+      '</section>' +
+
+      '<h2 style="margin:0 0 12px;font-size:1.08rem;">' + t('topicOverview') + '</h2>' +
+      '<div class="grid-3">' + window.MSHUB_DATA.topics.map(function (tp, i) {
+        var pt = p.perTopic[i];
+        return '<div class="card" style="display:flex;flex-direction:column;gap:10px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;"><span class="eyebrow">TOPIC ' + tp.num + '</span><span class="badge ' + (pt.completed ? 'badge-olive' : 'badge-muted') + '">' + pt.answered + '/' + pt.total + '</span></div>' +
+          '<h3 style="margin:0;font-size:1.05rem;">' + esc(lang === 'ar' ? tp.titleAr : tp.titleEn) + '</h3>' +
+          '<div class="progress-track"><div class="progress-fill" style="width:' + pt.pct + '%;"></div></div>' +
+          '<button class="btn btn-primary btn-sm" style="align-self:flex-start;" data-jump="study" data-tp="' + tp.id + '">' + t('openTopic') + '</button>' +
+        '</div>';
+      }).join('') + '</div>';
+
+    root.querySelectorAll('[data-jump]').forEach(function (b) {
+      b.addEventListener('click', function () { go(b.getAttribute('data-jump'), b.getAttribute('data-tp')); });
+    });
+  }
+
+  /* ==================== INSTANT QUIZ PAGE ==================== */
+  function renderQuiz() {
+    var root = document.getElementById('page-quiz');
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, lang = window.MSHUB_I18N.getLang(), sess = window.MSHUB_QUIZ.getSession();
+
+    if (!sess) {
+      root.innerHTML =
+        '<div class="page-head"><div class="eyebrow">M&lt;&gt;S · ' + t('navQuiz') + '</div><h1 class="page-title">' + t('quizTitle') + '</h1><p class="page-sub">' + t('quizSub') + '</p></div>' +
+        '<div class="card">' +
+          '<div class="grid-3">' +
+            '<div><label style="font-size:0.82rem;font-weight:700;display:block;margin-bottom:6px;">' + t('filterTopic') + '</label><select id="q-tp" class="select"><option value="all">' + t('allTopics') + '</option><option value="topic1">Topic 1</option><option value="topic2">Topic 2</option><option value="topic3">Topic 3</option></select></div>' +
+            '<div><label style="font-size:0.82rem;font-weight:700;display:block;margin-bottom:6px;">' + t('filterType') + '</label><select id="q-ty" class="select"><option value="all">' + t('typeAll') + '</option><option value="mcq">' + t('typeMcq') + '</option><option value="tf">' + t('typeTf') + '</option><option value="fill">' + t('typeFill') + '</option><option value="matching">' + t('typeMatch') + '</option></select></div>' +
+            '<div><label style="font-size:0.82rem;font-weight:700;display:block;margin-bottom:6px;">' + t('countLabel') + '</label><select id="q-cn" class="select"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option><option value="75">All (75)</option></select></div>' +
+          '</div>' +
+          '<div style="margin-top:16px;"><button class="btn btn-primary" id="q-go">' + t('startQuiz') + '</button></div>' +
+        '</div>';
+      document.getElementById('q-go').addEventListener('click', function () {
+        window.MSHUB_QUIZ.start({ topic: document.getElementById('q-tp').value, type: document.getElementById('q-ty').value, count: Number(document.getElementById('q-cn').value), shuffled: true });
+        renderQuiz();
+      });
+      return;
+    }
+
+    if (sess.finished) {
+      var tot = sess.mode === 'matching' ? sess.total : sess.questions.length;
+      var pct = tot ? Math.round((sess.score / tot) * 100) : 0;
+      root.innerHTML =
+        '<div class="card"><div class="eyebrow">' + t('quizResults') + '</div>' +
+        '<h2 class="page-title">' + sess.score + ' / ' + tot + ' (' + pct + '%)</h2>' +
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">' +
+          (sess.wrongIds.length ? '<button class="btn btn-accent" id="q-rw">' + t('retryWrong') + ' (' + sess.wrongIds.length + ')</button>' : '') +
+          '<button class="btn btn-primary" id="q-rst">' + t('restartQuiz') + '</button>' +
+        '</div></div>';
+      var rw = document.getElementById('q-rw');
+      if (rw) rw.addEventListener('click', function () { window.MSHUB_QUIZ.start({ onlyIds: sess.wrongIds, count: sess.wrongIds.length, shuffled: true }); renderQuiz(); });
+      document.getElementById('q-rst').addEventListener('click', function () { window.MSHUB_QUIZ.clear(); renderQuiz(); });
+      return;
+    }
+
+    if (sess.mode === 'matching') {
+      var b = sess.boards[sess.boardIdx];
+      var doneBoard = Object.keys(b.matched).length === b.terms.length;
+      root.innerHTML =
+        '<div class="card">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><strong>' + t('typeMatch') + ' · ' + b.topicId.toUpperCase() + '</strong><span class="badge badge-olive">' + Object.keys(b.matched).length + '/' + b.terms.length + '</span></div>' +
+          '<p style="margin:0;font-size:0.86rem;color:var(--text-muted);">' + t('matchHint') + '</p>' +
+          (b.lastErr ? '<div class="fb-box err">' + t('wrongMsg') + ' (' + esc(b.lastErr.term) + ')</div>' : '') +
+          '<div class="match-grid"><div>' + b.terms.map(function (tm, i) {
+            var cls = 'match-btn' + (b.matched[tm.id] ? ' ok' : (b.pickedTerm === tm.id ? ' picking' : ''));
+            return '<button class="' + cls + '" data-mt="' + tm.id + '" ' + (b.matched[tm.id] ? 'disabled' : '') + '>' + (i + 1) + '. <strong>' + esc(tm.term) + '</strong> (' + esc(tm.ar) + ')</button>';
+          }).join('') + '</div><div>' + b.defs.map(function (df, i) {
+            var ok = !!b.matched[df.id];
+            return '<button class="match-btn' + (ok ? ' ok' : '') + '" data-md="' + df.id + '" ' + (ok ? 'disabled' : '') + '>#' + (i + 1) + ' ' + esc(df.def) + '</button>';
+          }).join('') + '</div></div>' +
+          (doneBoard ? '<div style="margin-top:14px;"><button class="btn btn-primary" id="q-next">' + t('nextQ') + ' &rarr;</button></div>' : '') +
+        '</div>';
+      root.querySelectorAll('[data-mt]').forEach(function (el) { el.addEventListener('click', function () { b.pickedTerm = el.getAttribute('data-mt'); renderQuiz(); }); });
+      root.querySelectorAll('[data-md]').forEach(function (el) { el.addEventListener('click', function () { window.MSHUB_QUIZ.matchDefClick(el.getAttribute('data-md')); renderQuiz(); }); });
+      var qn = document.getElementById('q-next'); if (qn) qn.addEventListener('click', function () { window.MSHUB_QUIZ.next(); renderQuiz(); });
+      return;
+    }
+
+    var q = sess.questions[sess.index], lk = sess.locked[q.id];
+    var bms = window.MSHUB_STORAGE.load().bookmarks || [];
+    var isBm = bms.indexOf(q.id) !== -1;
+    var pctBar = Math.round(((sess.index + (lk ? 1 : 0)) / sess.questions.length) * 100);
+
+    root.innerHTML =
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+        '<strong>Q ' + (sess.index + 1) + ' / ' + sess.questions.length + '</strong>' +
+        '<div style="display:flex;gap:8px;align-items:center;"><span class="badge badge-olive">' + t('statCorrect') + ': ' + sess.score + '</span>' +
+        '<button class="btn btn-secondary btn-sm" id="q-bm">' + (isBm ? '&#9733; ' + t('bookmarked') : '&#9734; ' + t('bookmark')) + '</button></div>' +
+      '</div>' +
+      '<div class="progress-track" style="margin-bottom:16px;"><div class="progress-fill" style="width:' + pctBar + '%;"></div></div>' +
+      '<div class="card">' +
+        '<span class="badge badge-muted">' + q.topicId.toUpperCase() + ' · ' + q.type.toUpperCase() + '</span>' +
+        '<h2 style="margin:10px 0 4px;font-size:1.12rem;">' + esc(q.q) + '</h2>' +
+        (lang === 'ar' ? '<p style="margin:0 0 8px;color:var(--text-muted);font-size:0.88rem;">' + esc(q.qAr) + '</p>' : '') +
+        (q.type === 'fill'
+          ? '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"><input id="q-fill" class="input" style="max-width:320px;" placeholder="' + esc(t('fillPlaceholder')) + '" ' + (lk ? 'disabled' : '') + ' value="' + esc(lk ? lk.typed : '') + '">' + (!lk ? '<button class="btn btn-primary" id="q-fill-btn">' + t('checkFill') + '</button>' : '') + '</div>'
+          : '<div class="opt-list">' + q.opts.map(function (o, oi) {
+              var cls = lk ? (oi === q.correct ? ' ok' : (oi === lk.picked ? ' err' : '')) : '';
+              return '<button class="opt-btn' + cls + '" data-qo="' + oi + '" ' + (lk ? 'disabled' : '') + '><span class="opt-key">' + String.fromCharCode(65 + oi) + '</span><span>' + esc(o) + '</span></button>';
+            }).join('') + '</div>') +
+        (lk ? '<div class="fb-box ' + (lk.ok ? 'ok' : 'err') + '"><strong>' + (lk.ok ? t('correctMsg') : t('wrongMsg')) + '</strong>' +
+          (q.type === 'fill' && !lk.ok ? '<div><strong>' + t('correctChoice') + ':</strong> ' + esc(q.display) + '</div>' : '') +
+          '<div style="margin-top:4px;">' + esc(lang === 'ar' ? q.expAr : q.expEn) + '</div></div>' +
+          '<div style="margin-top:16px;display:flex;justify-content:flex-end;"><button class="btn btn-primary" id="q-next">' + (sess.index < sess.questions.length - 1 ? t('nextQ') + ' &rarr;' : t('finishScreen')) + '</button></div>' : '') +
+      '</div>';
+
+    root.querySelectorAll('[data-qo]').forEach(function (b) { b.addEventListener('click', function () { window.MSHUB_QUIZ.selectOption(Number(b.getAttribute('data-qo'))); renderQuiz(); }); });
+    var fb = document.getElementById('q-fill-btn'); if (fb) fb.addEventListener('click', function () { window.MSHUB_QUIZ.checkFill(document.getElementById('q-fill').value); renderQuiz(); });
+    var qn = document.getElementById('q-next'); if (qn) qn.addEventListener('click', function () { window.MSHUB_QUIZ.next(); renderQuiz(); });
+    document.getElementById('q-bm').addEventListener('click', function () {
+      window.MSHUB_STORAGE.update(function (s) { var i = s.bookmarks.indexOf(q.id); if (i === -1) s.bookmarks.push(q.id); else s.bookmarks.splice(i, 1); });
+      renderQuiz();
+    });
+  }
+
+  /* ==================== SMART STUDY & SPACED REPETITION ==================== */
+  function renderPractice() {
+    var root = document.getElementById('page-practice');
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, lang = window.MSHUB_I18N.getLang(), st = window.MSHUB_STORAGE.load();
+    var fc = window.MSHUB_FLASHCARDS.getState();
+
+    var body = '';
+    if (ui.practiceTab === 'srs') {
+      var c = fc.current;
+      var ansText = c ? (c.type === 'fill' ? c.display : c.opts[c.correct]) : '';
+      body = c ?
+        '<div style="text-align:center;margin-bottom:10px;"><span class="badge badge-accent">' + t('dueNow') + ': ' + fc.dueCount + ' / ' + fc.total + '</span></div>' +
+        '<div class="fc-card" id="srs-card">' +
+          '<div class="eyebrow">' + c.topicId.toUpperCase() + ' · ' + c.type.toUpperCase() + '</div>' +
+          '<h2 style="margin:4px 0;font-size:1.15rem;">' + esc(c.q) + '</h2>' +
+          (lang === 'ar' ? '<div style="color:var(--text-muted);font-size:0.9rem;">' + esc(c.qAr) + '</div>' : '') +
+          (fc.revealed ? '<div class="fb-box ok"><strong>' + esc(ansText) + '</strong><div style="margin-top:4px;">' + esc(lang === 'ar' ? c.expAr : c.expEn) + '</div></div>'
+            : '<div style="margin-top:8px;"><button class="btn btn-secondary btn-sm">' + t('revealAns') + '</button></div>') +
+        '</div>' +
+        (fc.revealed ? '<div class="srs-row">' +
+          '<button class="btn btn-danger btn-sm" data-srs="again">' + t('rateAgain') + '</button>' +
+          '<button class="btn btn-accent btn-sm" data-srs="hard">' + t('rateHard') + '</button>' +
+          '<button class="btn btn-primary btn-sm" data-srs="good">' + t('rateGood') + '</button>' +
+          '<button class="btn btn-secondary btn-sm" data-srs="easy">' + t('rateEasy') + '</button>' +
+        '</div>' : '') : '<div class="empty-box">' + t('empty') + '</div>';
+    } else if (ui.practiceTab === 'collection') {
+      var unansweredIds = window.MSHUB_DATA.questions.filter(function (q) { return !st.questionStats[q.id]; }).map(function (q) { return q.id; });
+      body = '<div class="grid-3">' +
+        collCard('All 75 Questions', 'all', 'all') +
+        collCard('Topic 1 Only', 'topic1', 'all') +
+        collCard('Topic 2 Only', 'topic2', 'all') +
+        collCard('Topic 3 Only', 'topic3', 'all') +
+        collCard('MCQs Only (30)', 'all', 'mcq') +
+        collCard('True / False Only (15)', 'all', 'tf') +
+        collCard('Vocabulary Matching (15)', 'all', 'matching') +
+        '<div class="card"><strong>Unanswered (' + unansweredIds.length + ')</strong><div style="margin-top:10px;"><button class="btn btn-primary btn-sm" id="col-unans" ' + (!unansweredIds.length ? 'disabled' : '') + '>' + t('startQuiz') + '</button></div></div>' +
+      '</div>';
+    } else {
+      var bms = (st.bookmarks || []).map(function (id) { return window.MSHUB_DATA.questions.find(function (q) { return q.id === id; }); }).filter(Boolean);
+      body = bms.length ? bms.map(function (q) {
+        return '<div class="card" style="margin-bottom:10px;"><strong>' + esc(q.q) + '</strong><div style="color:var(--ok);margin-top:4px;font-size:0.88rem;">' + esc(q.type === 'fill' ? q.display : q.opts[q.correct]) + '</div></div>';
+      }).join('') : '<div class="empty-box">' + t('empty') + '</div>';
+    }
+
+    root.innerHTML =
+      '<div class="page-head"><div class="eyebrow">M&lt;&gt;S · ' + t('navPractice') + '</div><h1 class="page-title">' + t('practiceTitle') + '</h1><p class="page-sub">' + t('practiceSub') + '</p></div>' +
+      '<div class="tabs">' +
+        '<button class="tab ' + (ui.practiceTab === 'srs' ? 'active' : '') + '" data-pt="srs">' + t('tabSrs') + '</button>' +
+        '<button class="tab ' + (ui.practiceTab === 'collection' ? 'active' : '') + '" data-pt="collection">' + t('tabCollection') + '</button>' +
+        '<button class="tab ' + (ui.practiceTab === 'saved' ? 'active' : '') + '" data-pt="saved">' + t('tabSaved') + ' (' + (st.bookmarks || []).length + ')</button>' +
+      '</div>' + body;
+
+    root.querySelectorAll('[data-pt]').forEach(function (b) { b.addEventListener('click', function () { ui.practiceTab = b.getAttribute('data-pt'); renderPractice(); }); });
+    var sc = document.getElementById('srs-card'); if (sc) sc.addEventListener('click', function () { window.MSHUB_FLASHCARDS.reveal(); renderPractice(); });
+    root.querySelectorAll('[data-srs]').forEach(function (b) { b.addEventListener('click', function () { window.MSHUB_FLASHCARDS.rateCurrent(b.getAttribute('data-srs')); renderPractice(); }); });
+    root.querySelectorAll('[data-col-go]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        window.MSHUB_QUIZ.start({ topic: b.getAttribute('data-ct'), type: b.getAttribute('data-cy'), count: 15, shuffled: true });
+        go('quiz');
+      });
+    });
+    var cu = document.getElementById('col-unans');
+    if (cu) cu.addEventListener('click', function () {
+      var ids = window.MSHUB_DATA.questions.filter(function (q) { return !st.questionStats[q.id]; }).map(function (q) { return q.id; });
+      window.MSHUB_QUIZ.start({ onlyIds: ids, count: Math.min(15, ids.length), shuffled: true });
+      go('quiz');
+    });
+  }
+  function collCard(title, topic, type) {
+    return '<div class="card"><strong>' + esc(title) + '</strong><div style="margin-top:10px;"><button class="btn btn-secondary btn-sm" data-col-go="1" data-ct="' + topic + '" data-cy="' + type + '">Start &rarr;</button></div></div>';
+  }
+
+  /* ==================== MY MISTAKES NOTEBOOK ==================== */
+  function renderMistakes() {
+    var root = document.getElementById('page-mistakes');
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, lang = window.MSHUB_I18N.getLang(), st = window.MSHUB_STORAGE.load();
+    var entries = Object.keys(st.mistakes || {}).map(function (id) {
+      var q = window.MSHUB_DATA.questions.find(function (x) { return x.id === id; });
+      return q ? Object.assign({ q: q, id: id }, st.mistakes[id]) : null;
+    }).filter(function (e) { return e && !e.mastered && (ui.mistakeTopic === 'all' || e.q.topicId === ui.mistakeTopic); });
+
+    root.innerHTML =
+      '<div class="page-head"><div class="eyebrow">M&lt;&gt;S · ' + t('navMistakes') + '</div><h1 class="page-title">' + t('mistakesTitle') + '</h1><p class="page-sub">' + t('mistakesSub') + '</p></div>' +
+      '<div class="tabs">' +
+        ['all', 'topic1', 'topic2', 'topic3'].map(function (tp) {
+          return '<button class="tab ' + (ui.mistakeTopic === tp ? 'active' : '') + '" data-mtf="' + tp + '">' + (tp === 'all' ? t('allTopics') : tp.toUpperCase()) + '</button>';
+        }).join('') +
+        (entries.length ? '<button class="btn btn-accent btn-sm" id="mk-prac" style="margin-inline-start:auto;">' + t('practiceMistakes') + '</button>' : '') +
+      '</div>' +
+      (entries.length ? entries.map(function (e) {
+        return '<div class="card" style="margin-bottom:12px;">' +
+          '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">' +
+            '<span class="badge badge-err">' + e.q.topicId.toUpperCase() + ' · ' + t('missedCount') + ': ' + e.wrongCount + 'x</span>' +
+            '<div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" data-mk-ok="' + e.id + '">' + t('markMastered') + '</button><button class="btn btn-secondary btn-sm" data-mk-del="' + e.id + '">' + t('removeMistake') + '</button></div>' +
+          '</div>' +
+          '<p style="margin:0 0 6px;font-weight:700;">' + esc(e.q.q) + '</p>' +
+          '<div style="font-size:0.86rem;color:var(--err);"><strong>' + t('yourChoice') + ':</strong> ' + esc(e.lastWrong) + '</div>' +
+          '<div style="font-size:0.86rem;color:var(--ok);"><strong>' + t('correctChoice') + ':</strong> ' + esc(e.q.type === 'fill' ? e.q.display : e.q.opts[e.q.correct]) + '</div>' +
+          '<div style="font-size:0.84rem;color:var(--text-muted);margin-top:4px;">' + esc(lang === 'ar' ? e.q.expAr : e.q.expEn) + '</div>' +
+        '</div>';
+      }).join('') : '<div class="empty-box">' + t('empty') + '</div>');
+
+    root.querySelectorAll('[data-mtf]').forEach(function (b) { b.addEventListener('click', function () { ui.mistakeTopic = b.getAttribute('data-mtf'); renderMistakes(); }); });
+    root.querySelectorAll('[data-mk-ok]').forEach(function (b) { b.addEventListener('click', function () { var id = b.getAttribute('data-mk-ok'); window.MSHUB_STORAGE.update(function (s) { if (s.mistakes[id]) s.mistakes[id].mastered = true; }); renderMistakes(); }); });
+    root.querySelectorAll('[data-mk-del]').forEach(function (b) { b.addEventListener('click', function () { var id = b.getAttribute('data-mk-del'); window.MSHUB_STORAGE.update(function (s) { delete s.mistakes[id]; }); renderMistakes(); }); });
+    var mp = document.getElementById('mk-prac');
+    if (mp) mp.addEventListener('click', function () { window.MSHUB_QUIZ.start({ onlyIds: entries.map(function (e) { return e.id; }), count: entries.length, shuffled: true }); go('quiz'); });
+  }
+
+  /* ==================== PROGRESS + JSON EXPORT/IMPORT ==================== */
+  function renderProgress() {
+    var root = document.getElementById('page-progress');
+    if (!root) return;
+    var t = window.MSHUB_I18N.t, p = window.MSHUB_PROGRESS.compute();
+
+    root.innerHTML =
+      '<div class="page-head"><div class="eyebrow">M&lt;&gt;S · ' + t('navProgress') + '</div><h1 class="page-title">' + t('progressTitle') + '</h1><p class="page-sub">' + t('progressSub') + '</p></div>' +
+      '<section class="stats-strip">' +
+        '<div class="stat-tile"><div class="stat-k">' + t('overallProg') + '</div><div class="stat-v">' + p.overallPct + '%</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statAnswered') + '</div><div class="stat-v">' + p.answeredUnique + '/' + p.totalQuestions + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('statAccuracy') + '</div><div class="stat-v">' + (p.correctTotal + p.wrongTotal ? p.accuracy + '%' : '—') + '</div></div>' +
+        '<div class="stat-tile"><div class="stat-k">' + t('dueNow') + '</div><div class="stat-v">' + p.dueSrs + '</div></div>' +
+      '</section>' +
+      '<div class="card" style="margin-bottom:18px;">' +
+        p.perTopic.map(function (pt, i) {
+          return '<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:0.88rem;font-weight:600;margin-bottom:4px;"><span>Topic ' + (i + 1) + '</span><span>' + pt.answered + '/' + pt.total + ' (' + pt.pct + '%)</span></div><div class="progress-track"><div class="progress-fill" style="width:' + pt.pct + '%;"></div></div></div>';
+        }).join('') +
+      '</div>' +
+      '<div class="card" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">' +
+        '<button class="btn btn-primary btn-sm" id="btn-exp-json">' + t('exportJson') + '</button>' +
+        '<label class="btn btn-secondary btn-sm" for="inp-imp-json" style="cursor:pointer;">' + t('importJson') + '</label>' +
+        '<input type="file" id="inp-imp-json" accept=".json,application/json" style="display:none;">' +
+        '<button class="btn btn-danger btn-sm" id="btn-rst-open" style="margin-inline-start:auto;">' + t('resetProgress') + '</button>' +
+      '</div>';
+
+    document.getElementById('btn-exp-json').addEventListener('click', function () {
+      var data = window.MSHUB_STORAGE.exportJson();
+      try {
+        var blob = new Blob([data], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'ms-study-hub-progress.json';
+        a.click();
+        toast('Exported progress JSON.');
+      } catch (e) { toast('Export ready.'); }
+    });
+    document.getElementById('inp-imp-json').addEventListener('change', function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var r = window.MSHUB_STORAGE.importJson(reader.result);
+        toast(r.ok ? 'Progress imported!' : r.error);
+        if (r.ok) render();
+      };
+      reader.readAsText(file);
+    });
+    document.getElementById('btn-rst-open').addEventListener('click', function () {
+      document.getElementById('reset-modal').classList.add('open');
+    });
+  }
+
+  function render() {
+    syncChrome();
+    if (ui.page === 'home') renderHome();
+    else if (ui.page === 'study') window.MSHUB_STUDY.render(document.getElementById('page-study'));
+    else if (ui.page === 'quiz') renderQuiz();
+    else if (ui.page === 'practice') renderPractice();
+    else if (ui.page === 'mistakes') renderMistakes();
+    else if (ui.page === 'progress') renderProgress();
+  }
+
+  function init() {
+    var st = window.MSHUB_STORAGE.load();
+    window.MSHUB_I18N.apply(st.lang || 'en');
+    document.documentElement.setAttribute('data-theme', st.theme || 'light');
+
+    ui.page = document.body.getAttribute('data-page') || 'home';
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('topic')) window.MSHUB_STUDY.setTopic(params.get('topic'));
+    else window.MSHUB_STUDY.setTopic(st.lastTopic || 'topic1');
+
+    document.querySelectorAll('[data-nav]').forEach(function (el) {
+      el.addEventListener('click', function (e) { if (isSpa()) { e.preventDefault(); go(el.getAttribute('data-nav')); } });
+    });
+    var mb = document.getElementById('btn-mobile');
+    if (mb) mb.addEventListener('click', function () { document.getElementById('mobile-drawer').classList.toggle('open'); });
+    document.getElementById('btn-lang').addEventListener('click', function () { window.MSHUB_I18N.toggle(); render(); });
+    document.getElementById('btn-theme').addEventListener('click', function () {
+      var nxt = (window.MSHUB_STORAGE.load().theme || 'light') === 'light' ? 'dark' : 'light';
+      window.MSHUB_STORAGE.update(function (s) { s.theme = nxt; });
+      document.documentElement.setAttribute('data-theme', nxt);
+      syncChrome();
+    });
+    var rc = document.getElementById('rst-cancel');
+    if (rc) rc.addEventListener('click', function () { document.getElementById('reset-modal').classList.remove('open'); });
+    var rok = document.getElementById('rst-confirm');
+    if (rok) rok.addEventListener('click', function () {
+      document.getElementById('reset-modal').classList.remove('open');
+      window.MSHUB_STORAGE.resetAll();
+      window.MSHUB_QUIZ.clear();
+      render();
+      toast('Progress reset.');
+    });
+
+    /* Spacebar flips SRS flashcard */
+    document.addEventListener('keydown', function (e) {
+      if (ui.page === 'practice' && ui.practiceTab === 'srs' && e.code === 'Space' && !(e.target && e.target.tagName === 'INPUT')) {
+        e.preventDefault();
+        window.MSHUB_FLASHCARDS.reveal();
+        renderPractice();
+      }
+    });
+
+    render();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  return { go: go, render: render };
+})();
+
+  </script>
+</body>
+</html>
